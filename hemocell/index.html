@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Hemocell - HighpErformance MicrOscopic CELlular Library">
+<meta name="description" content="HemoCell is a framework for simulating dense suspensions of deformable cells, focusing on blood. It is based on the combined Immersed boundary-lattice Boltzmann method (IB-LBM). Currently it uses the open source C&#43;&#43; lattice Boltzmann solver Palabos.">
+<meta name="generator" content="Hugo 0.101.0" />
+<title>HEMOCELL</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://uvacsl.github.io/hemocell/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://uvacsl.github.io/hemocell/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://uvacsl.github.io/hemocell/font-awesome/css/font-awesome.min.css" type="text/css">
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://uvacsl.github.io/hemocell/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://uvacsl.github.io/hemocell/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://uvacsl.github.io/hemocell/css/modals.css" type="text/css">
+
+<link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+     
+</style>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    </head>
+    <body id="page-top">
+        
+            <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://uva.computationalscience.nl/"><img src="logo/csl.png" class="navbar-brand img-responsive no-padding" alt=""></a>
+            
+                <a class="navbar-brand page-scroll" href="#page-top">HemoCell Home</a>
+            
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Publications</a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a class="page-scroll" href="#about">Features</a>
+                    </li>
+                
+                
+                    <li>
+                        <a class="page-scroll" href="#download">Docs &amp; Downloads</a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a class="page-scroll" href="#download2d">2D version</a>
+                    </li>
+                
+                
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+        
+
+        
+            <!-- HEADER -->
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                <h1>HemoCell</h1>
+            
+            
+               
+            
+            
+                <p>A high-performance framework for dense cellular suspension flows</p>
+            
+            
+                <a href="#portfolio" class="btn btn-primary btn-xl page-scroll"><i class="fa fa-arrow-down fa-1x wow bounceIn"></i> Find out more <i class="fa fa-arrow-down fa-1x wow bounceIn"></i></a>
+            
+        </div>
+    </div>
+</header>
+
+        
+
+        
+
+        
+            <section class="no-padding" id="portfolio">
+ 
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-lg-12 text-center">
+                <br/><br/><br/><br/><br/>
+                <h2 class="section-heading">Selected publications</h2>
+                <hr class="primary">
+                <br/>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal1" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/virtual_human.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Scientific visualization
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Virtual Human Project
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal2" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/validation.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Model development
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Novel material model and validations
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal12" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/diabetic_cells.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Rheology
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Diabetic blood flows
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal3" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/internal_cell_visco.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Model development
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Effects of internal cell viscosity differences
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal5" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/vessel_curve.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Microfluidics
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Effects of vessel curvature on platelet adhesion
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal4" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/vvuq.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Model development
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Sensitivity analysis and uncertainty quantification
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal7" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/malaria.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Biomedicine
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Malaria infected cells
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal8" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/parallel.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            HPC
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Optimised high-performance code
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal10" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/cell_trafficking.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Rheology
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Detailed cellular trafficking in blood flows
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal11" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/micro_aneurysm.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Biomedicine
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Pulsatile blood flow in micro aneurysms in the human retina
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal6" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/load_balance.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            HPC
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Load-balancing large-scale simulations
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal13" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/multi_scale.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            HPC
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Multi-Scale blood flow model
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal14" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/flow_conditions.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Rheology
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            Flow conditions necessary for high shear platelet aggrwegation
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+                <div class="col-lg-3 col-sm-4">
+                    <a href="#portfolioModal15" class="portfolio-box portfolio-link" data-toggle="modal">
+                        <img src="img/portfolio/initial_platelet_aggregate.png" class="img-responsive" alt="">
+                        
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    
+                                        <div class="project-category text-faded">
+                                            Rheology
+                                        </div>
+                                    
+                                    
+                                        <div class="project-name">
+                                            The role of the cell free layer in platelet aggregation
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</section>
+
+        
+
+        
+            <!-- ABOUT -->
+<section class="bg-light" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <h2 class="section-heading">Features</h2>
+                                
+                
+                <hr class="primary">
+                <br />
+            </div>
+
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <video style="max-width:100%;"  loop controls>
+                        <source src="vid/stentflow.mp4" type="video/mp4" />
+                        <source src="vid/stentflow.ogv" type="video/ogg" />
+                        Your browser does not support the video tag.
+                    </video>
+                    <br><br>
+                
+            </div>
+            
+            <br/>
+            <br/>
+
+            <div class="container">
+                <div class="row">
+                 
+                     <div class="col-lg-3 col-md-6 text-center">
+                         <div class="service-box">
+                             <i class="fa fa-4x fa-microchip wow bounceIn text-primary"></i>
+                             <h3>High-performance</h3>
+                             
+                                 <p class="text">Detailed cellular simulations are computationally demanding. The code was built with efficiency and performance in mind. HemoCell has excellent scaling from laptops to over 300,000 cores [<a href="//www.sciencedirect.com/science/article/pii/S1877750315000447">1</a>,<a href="//www.sciencedirect.com/science/article/pii/S1877050917306245">2</a>,<a href="//www.iccs-meeting.org/archive/iccs2019/papers/115380522.pdf">3</a>].</p>
+                             
+                         </div>
+                     </div>
+                 
+                     <div class="col-lg-3 col-md-6 text-center">
+                         <div class="service-box">
+                             <i class="fa fa-4x fa-check-square-o wow bounceIn text-primary"></i>
+                             <h3>Validated</h3>
+                             
+                                 <p class="text">Both single cell mechanical behaviour and blood rheology were validated with experiments [<a href="http://journal.frontiersin.org/article/10.3389/fphys.2017.00563/abstract">4</a>], and evaluated through uncertainty quantification [<a href="dx.doi.org/10.1615/Int.J.UncertaintyQuantification.2020033186">5</a>].</p>
+                             
+                         </div>
+                     </div>
+                 
+                     <div class="col-lg-3 col-md-6 text-center">
+                         <div class="service-box">
+                             <i class="fa fa-4x fa-puzzle-piece wow bounceIn text-primary"></i>
+                             <h3>Extensible</h3>
+                             
+                                 <p class="text">The code is designed to be easily extensible. Adding new material models and cell types, and interactions is simple [<a href="//www.mdpi.com/2076-3417/8/9/1616/htm">6</a>].</p>
+                             
+                         </div>
+                     </div>
+                 
+                     <div class="col-lg-3 col-md-6 text-center">
+                         <div class="service-box">
+                             <i class="fa fa-4x fa-tasks wow bounceIn text-primary"></i>
+                             <h3>Advanced features</h3>
+                             
+                                 <p class="text">HemoCell has several advanced features such as <em>internal cell structure</em>, <em>continuous cell inflow boundary</em>, <em>Lees-Edwards boundary</em>, <em>Load-Balancing</em>. [<a href="//www.sciencedirect.com/science/article/pii/S1877750317302788">7</a>,<a href="//www.sciencedirect.com/science/article/pii/S0045793018302214">8</a>]</p>
+                             
+                         </div>
+                     </div>
+                 
+                 </div>
+             </div>
+
+            <br>
+
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                
+                
+            </div>
+
+        </div>
+    </div>
+</section>
+
+        
+
+        
+            <!-- CONTRIBUTORS -->
+<section class="bg-primary" id="download">
+    <div class="container">
+        <div class="row">
+         
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <h2 class="section-heading">Documentation and downloads</h2>
+                
+
+                
+                    <hr class="light">
+                
+                <br>
+                
+                    <p>The source code of HemoCell is available under the AGPL v3 license (for details see the file LICENSE in the package). HemoCell can be installed on Linux, Mac OS X (Homebrew) and Windows (WLS).</p>
+                
+            </div>
+        </div>
+        <div class="row"><br></div>
+        <div class="row">
+            
+            <div class="col-lg-8 col-lg-offset-2 text-center">    
+                
+                <div class="col-lg-4 col-lg-offset-2">        
+                    
+                        <a href="./user_guide/index.html" class="btn btn-default btn-xl"> <i class="fa fa-book fa-2x wow bounceIn"></i> Documentation</a>
+                    
+                </div>
+                 <div class="col-lg-4 col-lg-offset-0">        
+                    
+                        <a href="https://github.com/UvaCsl/HemoCell" class="btn btn-default btn-xl"> <i class="fa fa-github fa-2x wow bounceIn"></i> Download from github</a>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+        
+
+        
+            <!-- CONTRIBUTORS -->
+<section class="bg-light" id="download2d">
+    <div class="container">
+        <div class="row">
+         
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <h2 class="section-heading">HemoCell 2D</h2>
+                
+
+                
+                    <hr class="primary">
+                
+                <br>
+                
+                    <p>A validated two dimensional lattice Boltzmann model for blood plasma with a discrete element method for both red blood cells and platelets coupled by the immersed boundary method.<!-- raw HTML omitted --> <!-- raw HTML omitted --> <strong>Key properties</strong>: Fortran, Parallelized with MPI, Suspension rheology validation, Easily used to test large sets of parameters</p>
+                
+            </div>
+
+            <div class="col-lg-4 col-lg-offset-4 text-center">        
+                
+                    <a href="./hemocell2d/index.html" class="btn btn-primary btn-xl"> <i class="fa fa-external-link fa-2x wow bounceIn"></i> To the HemoCell 2D site</a>
+                
+            </div>
+        </div>
+ 
+    </div>
+</section>
+
+        
+
+        
+            <!-- CONTACT -->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <h2 class="section-heading">Contact us!</h2>
+                
+                
+                    <hr class="primary">
+                
+                
+                    <p>We believe that by allowing open access to our rearch code we can further inspire development and distribution so that the largest number of scientists can benefit from its capabilities. We hope that you will also find the software useful and encourage you to contribute enhancements and improvements. If you have questions or remarks about HemoCell, please use the following channels!</p>
+                
+            </div>
+            
+                <div class="
+                
+                    col-lg-4
+                
+                col-lg-offset-2 text-center">
+                    <i class="fa fa-github fa-3x wow bounceIn"></i>
+                    <p><a href="https://github.com/UvaCsl/HemoCell/discussions">github discussion</a></p>
+                </div>
+            
+            
+                <div class="
+                
+                    col-lg-4
+                
+                 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="mailto:info@hemocell.eu">info@hemocell.eu</a></p>
+                </div>
+            
+
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <br/><br/><br/>
+                
+                    <h2 class="section-heading">Subscribe!</h2>
+                
+                
+                    <p>Our official mailing list is a low-requency list (1-2 mails per year) created to inform users and potential users about important new features and other significant changes.</p>
+                
+            </div>
+
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+        
+        <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+         
+        </style>
+        <div id="mc_embed_signup">
+        <form action="https://computationalscience.us17.list-manage.com/subscribe/post?u=ead85142a3d01dec67b441bc1&amp;id=e82f3dbc2b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+    
+            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+            
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ead85142a3d01dec67b441bc1_e82f3dbc2b" tabindex="-1" value=""></div>
+            <div class="clear"><br/><input type="submit" style="width: 20%; border-radius: 12px; border: none; background-color:rgb(240,95,64);color:white;" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        <br/><br/><br/><br/><br/><br/>
+        </div>
+
+
+
+
+
+            </div>
+
+            
+            <div class="col-lg-3 col-lg-offset-3 col-sm-6">        
+                <a href="https://uva.computationalscience.nl/"><img src="logo/csl.png" class="img-responsive" alt=""></a>
+            </div>
+            <div class="col-lg-3 col-sm-6">        
+                <a href="http://www.uva.nl/home"><img src="logo/uva.png" class="img-responsive" alt=""></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+        
+
+        
+            <!-- CONTRIBUTORS -->
+<section class="bg-light" id="contrib">
+    <div class="container">
+        <div class="row">
+         
+       
+            <div class="col-lg-10 col-lg-offset-1 text-center">
+                
+                    <h2 class="section-heading">Acknowledgements</h2>
+                
+                
+                    <hr class="primary">
+                
+         
+        <div class="row"><br></div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                
+                    <p>The following Friends and Partners are acknowledged:</p>
+                
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-6 col-lg-offset-4">
+                <a href="https://www.compbiomed.eu/"><img src="logo/compbiomed_logo.png" class="img-responsive" alt=""></a>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-lg-offset-0">
+                <a href="https://www.surf.nl/"><img src="logo/surf.png" class="img-responsive" alt=""></a>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-lg-offset-0">
+                <a href="https://www.hds.bme.hu/"><img src="logo/logoHDS.png" width="50%" class="img-responsive" alt=""></a>
+            </div>
+        </div>
+        <div class="row"><br></div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-6 col-lg-offset-3">
+                <a href="https://electricant.com/"><img src="logo/ElectricAntLab.png" class="img-responsive" alt=""></a>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-lg-offset-0">
+                <a href="https://www.archer2.ac.uk/"><img src="logo/archer2_logo_small.png" class="img-responsive" alt=""></a>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-lg-offset-0">
+                <a href="https://www.lrz.de/"><img src="logo/lrz.png" width="80%" class="img-responsive" alt=""></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+        
+
+        
+            
+
+<section id="location" class="no-padding">
+    <div class="hidden">
+        <input id="gmap-lat" value="52.3554606" />
+        <input id="gmap-lng" value="4.95476961" />
+    </div>
+    <a href="https://www.google.com/maps?&z=17&q=52.3554606,4.95476961&ll=52.3554606,4.95476961">
+        <div id="map">
+            &nbsp;
+        </div>
+    </a>
+</section>
+
+
+        
+
+        
+            <!-- Portfolio Modals -->
+
+<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Virtual Human Project</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/virtual_human.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>Simulation data produced by HemoCell was used in the creation of the Virtual Physiological Human IMAX movie. It is an educatory movie targetting the general public and aims to show the current state of the art models building up the Digital Twin. The movie is available <a href="https://www.youtube.com/watch?v=1ZrAaDsfBYY">here on YouTube</a>.</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2017</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Scientific visualization</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Novel material model and validations</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/validation.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The material model of the cells and the fluid structure interaction between the cells have been validated thoroughly. The standard experiments for the comparison are <em>optical tweezer stretching</em>, <em>consant-shear Wheeler test</em>, <em>size of cell-free layer</em>, <em>apparent viscosity in glass tubes</em>. For details on the validation and the material model please see [<a href="https://www.frontiersin.org/articles/10.3389/fphys.2017.00563">Cellular Level In-silico Modeling of Blood Rheology with An Improved Material Model for Red Blood Cells</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1877050917306245">Hemocell: a high-performance microscopic cellular library</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2017</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Model development</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal12" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Diabetic blood flows</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/diabetic_cells.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The transport and rheology of chemically hardened red blood cells are compared to experimental data. HemoCell predicts a disruption in margination efficiency as the ratio of diabetic cells grow. [<a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007716">The influence of red blood cell deformability on hematocrit profiles and platelet margination</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2020</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Rheology</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Effects of internal cell viscosity differences</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/internal_cell_visco.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>To represent the higher inner cytoplasmic viscosity of deformable cells an fast algorythm is implemented to identify fluid nodes inside the cell and assign different viscosity to them. Due to the fine-tuned algorithms the application of this feature imposes about 4-5% performance penalty only [<a href="https://www.mdpi.com/2076-3417/8/9/1616/htm">Numerical Investigation of the Effects of Red Blood Cell Cytoplasmic Viscosity Contrasts on Single Cell and Bulk Transport Behaviour</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2018</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Model development</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Effects of vessel curvature on platelet adhesion</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/vessel_curve.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>Microfluidic experiments are often done in straight channels and ragular geometries. Here the effects of curvature are investigated, which influence the adhasion of platelets significantly via the appearence of strong elongational flows. [<a href="">The influence of red blood cell deformability on hematocrit profiles and platelet margination</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2021</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Microfluidics</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Sensitivity analysis and uncertainty quantification</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/vvuq.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The mechanical model undervent detailed sensitivity analysis, and inverse uncertainty quantification [<a href="https://doi.org/10.1615/Int.J.UncertaintyQuantification.2020033186">Inverse Uncertainty Quantification of a Cell Model Using a Gaussian Process Metamodel</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2020</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Model development</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Malaria infected cells</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/malaria.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>Model for stage V gametocyte cells. The shape has been reconstructud basen on micro-CT images, the mechanics is set based on micro-pipette membrane stretching. [<a href="https://doi.org/10.1007/978-3-319-93698-7_30">Understanding Malaria induced red blood cell deformation using data-driven Lattice Boltzmann Simulations</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2017</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Biomedicine</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal8" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Optimised high-performance code</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/parallel.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>HemoCell is built using C++ with a clean API and heavily optimised algorithms. It scales well from a single notebook (capable of a handful cells) up to the largest supercomuters (millions of cells). The code was deployed up to 330,000 CPUs.The framework provides effective automatic parallelisation as well as dynamic load-balancing using (preliminary support). <a href="https://link.springer.com/chapter/10.1007/978-3-030-22744-9_42">Optimizing parallel performance of the cell based blood flow simulation software HemoCell</a>.</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2017</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">HPC</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal10" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Detailed cellular trafficking in blood flows</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/cell_trafficking.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The simulations give access to the detailed motion and deformation of cells inside blood flow. These trajectories were used to compliment experimental measurements to understand the shear-induced diffusivity and fundamental steps of margination [<a href="https://aip.scitation.org/doi/abs/10.1063/1.5085881">Red blood cell and platelet diffusivity and margination in the presence of cross-stream gradients in blood flows</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2019</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Rheology</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal11" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Pulsatile blood flow in micro aneurysms in the human retina</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/micro_aneurysm.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>In case of diabetic diseases, retinal micro-aneurysms often appear as well. These pathologic vessel sections are not fully understood, and can pose a dangerous threat to clear vision. In this project a patient specific micro-aneurysm was reconstructed in 3D using two types of imaging modalities. The trafficking of the cells and the interaction with the vessel wall changes substantially from the healthy cases. For more details please see the related publication [<a href="https://doi.org/10.1080/10255842.2022.2034794">The effect of stiffened diabetic red blood cells on wall shear stress in a reconstructed 3D microaneurysm</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2020</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Biomedicine</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Load-balancing large-scale simulations</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/load_balance.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>Load imbalance is the situation where the workload between processes is unequal. In case of cellular suspension simulations it might arise due to the inhomogeneity of the cell distribution within the simulation domain. This is typically a major source of loss of parallel efficiency for bio-fluid flows simulations such as blood flow simulations. [<a href="https://doi.org/10.1016/j.jocs.2017.11.008">Load balancing of parallel cell-based blood flow simulations</a>]</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2017</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">HPC</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal13" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Multi-Scale blood flow model</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/multi_scale.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>HemoCell is used as a micro-scale modell componet of a large multi-scale model. The aim is to reduce the computational cost while still acquire accurate haematocrit values on the macro-scale. [<a href="https://link.springer.com/chapter/10.1007/978-3-030-50433-5_31">A Heterogeneous Multi-scale Model for Blood Flow</a>].</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2020</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">HPC</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal14" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>Flow conditions necessary for high shear platelet aggrwegation</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/flow_conditions.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The conditions at the site of a platelet aggregate initiation were investigated. The aim was to uncover the properties of the necassary flow conditions in order for a high-shear rate platelet aggregation to forms. [<a href="http://dx.doi.org/10.1098/rsfs.2019.0126">Haemodynamic flow conditions at the initiation of high-shear platelet aggregation: a combined in vitro and cellular in silico study</a>]</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2019</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Rheology</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="portfolioModal15" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        
+                            <h2>The role of the cell free layer in platelet aggregation</h2>
+                        
+                        
+                            <hr class="star-primary">
+                        
+                        <img src="img/portfolio/initial_platelet_aggregate.png" class="img-responsive img-centered" alt="">
+                        
+                            <p>The cell free layer provides ample space for the initial stages of the high-shear platelet aggregation. This study compliments experimental findings with detailed cellulara simulations. [<a href="http://dx.doi.org/10.1098/rsif.2019.0148">Identifying the start of a platelet aggregate by the shear rate and the cell-depleted layer</a>]</p>
+                        
+                        
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Project: 
+                                        <strong><a href="#">UvA</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Date: 
+                                        <strong><a href="#">2019</a></strong>
+                                    </li>
+                                
+                                
+                                    <li>Category: 
+                                        <strong><a href="#">Rheology</a></strong>
+                                    </li>
+                                
+                            </ul>
+                        
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        
+
+
+        
+            <!-- ASIDE -->
+<aside class="bg-dark">
+    <div class="container text-center">
+        <div class="call-to-action">
+            
+            
+                <p class="text-faded">All rights reserved, Amsterdam, 2022.</p>
+            
+            
+            
+                <p class="text-faded" style="font-size: 10px">This site was created by <a href="http://www.zavodszky.com">Gábor Závodszky</a> using <a href="//gohugo.io/">Hugo</a> and the Hugo-creative-theme.</p>
+            
+        </div>
+    </div>
+</aside>
+
+        
+
+        <!-- jQuery -->
+<script src="https://uvacsl.github.io/hemocell/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://uvacsl.github.io/hemocell/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://uvacsl.github.io/hemocell/js/jquery.easing.min.js"></script>
+<script src="https://uvacsl.github.io/hemocell/js/jquery.fittext.js"></script>
+<script src="https://uvacsl.github.io/hemocell/js/wow.min.js"></script>
+
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCnczy78yqFDL7en1D1Yr0wMDLOO-9i2iw&v=3.exp"></script>
+<script src="https://uvacsl.github.io/hemocell/js/hpneo.gmaps.js"></script>
+<script src="https://uvacsl.github.io/hemocell/js/gmaps.init.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://uvacsl.github.io/hemocell/js/creative.js"></script>
+
+
+        
+    </body>
+</html>
