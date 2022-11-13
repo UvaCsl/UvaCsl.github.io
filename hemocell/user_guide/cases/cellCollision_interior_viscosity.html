@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Colliding cells with interior viscosity &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pipe flow" href="pipeflow.html" />
+    <link rel="prev" title="A parachuting cell" href="parachuting.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pipeflow.html" title="Pipe flow"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="parachuting.html" title="A parachuting cell"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" accesskey="U">Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Colliding cells with interior viscosity</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="colliding-cells-with-interior-viscosity">
+<h1>Colliding cells with interior viscosity<a class="headerlink" href="#colliding-cells-with-interior-viscosity" title="Permalink to this headline">¶</a></h1>
+<p>The example in <code class="docutils literal notranslate"><span class="pre">examples/cellCollision_interior_viscosity</span></code> illustrates a cell
+collision between a red blood cell (RBC) and a platelet (PLT) embedded in a
+shear flow. The problem also enables <code class="docutils literal notranslate"><span class="pre">interior</span> <span class="pre">viscosity</span></code>, which was not
+enabled in any of the previous examples. Furthermore, this example has been
+showcased in the publication by Haan <em>et al.</em> <a class="footnote-reference brackets" href="#iv" id="id1">1</a>.</p>
+<p>After <a class="reference internal" href="../QuickStart.html#compilation"><span class="std std-ref">compilation</span></a>, the example can be run using single core as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run the simulation from `examples/cellCollision_interior_viscosity/`</span>
+<span class="n">mpirun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="o">./</span><span class="n">cellCollision_interior_viscosity</span> <span class="n">config</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># generate Paraview compatible output files</span>
+<span class="o">../../</span><span class="n">scripts</span><span class="o">/</span><span class="n">batchPostProcess</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The outcome files are generated in <code class="docutils literal notranslate"><span class="pre">tmp/</span></code>, where the flow field and particle
+fields can be visualised separately by viewing the <code class="docutils literal notranslate"><span class="pre">tmp/Fluid.*.xmf</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tmp/RBC.*.xmf</span></code>, and <code class="docutils literal notranslate"><span class="pre">tmp/PLT.*.xmf</span></code> files in <a class="reference external" href="https://www.paraview.org/">Paraview</a>.</p>
+<p>In the presented example, the following initial cell positions are considered
+for the platelet and the red blood cell, see
+<a class="reference internal" href="#initial-cell-positioning"><span class="std std-ref">initial cell positions</span></a>
+for a brief description on these input positions.</p>
+<ul>
+<li><p>The platelet</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># PLT.pos</span>
+<span class="mi">1</span>
+<span class="mf">14.5</span> <span class="mf">13.0</span> <span class="mf">9.0</span> <span class="mi">90</span> <span class="mi">0</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</li>
+<li><p>The red blood cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># RBC.pos</span>
+<span class="mi">1</span>
+<span class="mf">5.5</span> <span class="mf">13.0</span> <span class="mf">7.0</span> <span class="mf">90.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The following RBC-PLT interaction is observed, where the PLT passes besides the
+RBC and clearly showing the interaction between both cells. Note, both cells are
+immersed within a shear flow, so there is the tendency for the cells to rotate
+around their own axis. To ensure the (near) collision occurs, the platelet is
+slightly offset in the shear flow, such that a larger horizontal velocity is
+achieved.</p>
+<figure class="align-center" id="id3" style="width: 90%">
+<img alt="A cell subjected to stretching forces." src="../_images/rbc-plt-60.png" />
+<figcaption>
+<p><span class="caption-text">The PLT approaching the RBC in the shear flow.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id4" style="width: 90%">
+<img alt="A cell subjected to stretching forces." src="../_images/rbc-plt-90.png" />
+<figcaption>
+<p><span class="caption-text">The PLT passing around the RBC in the shear flow where the interaction
+between both cells is clearly visible by the deformations at the topside of
+the RBC.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id5" style="width: 90%">
+<img alt="A cell subjected to stretching forces." src="../_images/rbc-plt-120.png" />
+<figcaption>
+<p><span class="caption-text">The PLT downstream of the RBC in the shear flow. The effect of the (near)
+collision is still visible in the current deformations of the RBC.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>To visualise the path of the platelet, we aggregate various
+time steps together making it clear how the platelet approaches and moves past
+the RBC.</p>
+<figure class="align-center" id="id6" style="width: 90%">
+<img alt="A cell subjected to stretching forces." src="../_images/rbc-plt-trajectory.png" />
+<figcaption>
+<p><span class="caption-text">The trajectory of the PLT as it passes and interacts with the RBC in the
+shear flow. The previous positions of the platelet are illustrated with
+slight opacity.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="initial-cell-positioning">
+<h2>Initial cell positioning<a class="headerlink" href="#initial-cell-positioning" title="Permalink to this headline">¶</a></h2>
+<p>The initial cell positions are given through <code class="docutils literal notranslate"><span class="pre">*.pos</span></code> files in <code class="docutils literal notranslate"><span class="pre">HemoCell</span></code>.
+The RBC and PLT cells are respectively given in <code class="docutils literal notranslate"><span class="pre">RBC.pos</span></code> and <code class="docutils literal notranslate"><span class="pre">PLT.pos</span></code>.
+These files hold the initial position in <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z</span></code> coordinates and the three
+rotations around the corresponding axis. The initial conditions can be modified
+to observe different collision interactions between both cells.</p>
+<p>The files start with a header indicating the number of cells present in the
+file, followed by a position and rotation for each file in the subsequent lines,
+e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># RBC.pos</span>
+<span class="mi">1</span>
+<span class="mf">5.5</span> <span class="mf">13.0</span> <span class="mf">7.0</span> <span class="mf">90.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the RBC and PLT positions, there are three main configuration
+parameters to consider in this example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;&lt;shearrate&gt;</span></code>: this controls the shear rate int he domain and is
+presented uniformly by specifying velocity boundary conditions on the top and
+bottom boundaries of the domain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;sim&gt;&lt;interiorViscosity&gt;</span></code>: the interval at which the interior and exterior
+fluid cells are determined near the boundary of the cells. If the cells move a
+lot, this can lead to the interior viscosity <em>leaking</em> to the outside of the
+domain. However, it should be noted that this behaviour has not been observed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note, the performance impact is low and the set interval can be kept small.</p>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;sim&gt;&lt;interiorViscosityEntireGrid&gt;</span></code>: the interval at which the interior and
+exterior fluid of every cell is computed <em>exactly</em> using ray tracing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note, this is extremely expensive and short intervals should be avoided.</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="publication-cases">
+<h2>Publication cases<a class="headerlink" href="#publication-cases" title="Permalink to this headline">¶</a></h2>
+<p>To generate the cases presented in <a class="footnote-reference brackets" href="#iv" id="id2">1</a> the <code class="docutils literal notranslate"><span class="pre">Generate</span></code> folder provides
+additional details, especially in the provided <code class="docutils literal notranslate"><span class="pre">Generate/README</span></code>. In this
+directory additional scripts are found to generate a variety of initial
+conditions for the RBC and PLT and additional runner scripts.</p>
+<dl class="footnote brackets">
+<dt class="label" id="iv"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://doi.org/10.3390/app8091616">Numerical Investigation of the Effects of Red Blood Cell Cytoplasmic
+Viscosity Contrasts on Single Cell and Bulk Transport Behaviour.  Applied
+Sciences 8.</a> M de Haan, G Zavodszky, V
+Azizi, A Hoekstra.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Colliding cells with interior viscosity</a><ul>
+<li><a class="reference internal" href="#initial-cell-positioning">Initial cell positioning</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#publication-cases">Publication cases</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="parachuting.html"
+                          title="previous chapter">A parachuting cell</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pipeflow.html"
+                          title="next chapter">Pipe flow</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cases/cellCollision_interior_viscosity.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pipeflow.html" title="Pipe flow"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="parachuting.html" title="A parachuting cell"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" >Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Colliding cells with interior viscosity</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

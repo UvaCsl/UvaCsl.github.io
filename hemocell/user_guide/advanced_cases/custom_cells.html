@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Custom cells and reading cells from STL &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running a pure fluid flow" href="pure_flow_simulations.html" />
+    <link rel="prev" title="Advanced use-cases" href="../advanced_cases.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pure_flow_simulations.html" title="Running a pure fluid flow"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../advanced_cases.html" title="Advanced use-cases"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../advanced_cases.html" accesskey="U">Advanced use-cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Custom cells and reading cells from STL</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="custom-cells-and-reading-cells-from-stl">
+<h1>Custom cells and reading cells from STL<a class="headerlink" href="#custom-cells-and-reading-cells-from-stl" title="Permalink to this headline">¶</a></h1>
+<p>HemoCell provides different cell types to be used in the simulations. Most
+commonly, the red blood cells (RBCs) and platelets (PLTs) are used, often
+together in the same simulation. However, for different use-cases, we support
+changing the shapes and properties of these cells and even provide support for
+directly loading in cell geometries from STL files.</p>
+<p>Details on the various configuration settings can be found here:
+<a class="reference internal" href="../xml_files.html#constants"><span class="std std-ref">configuration</span></a>.</p>
+<section id="specifying-cell-types">
+<h2>Specifying cell types<a class="headerlink" href="#specifying-cell-types" title="Permalink to this headline">¶</a></h2>
+<p>Usually cells are generated mathematically, i.e. the vertex locations and the
+resulting triangulation are gathered from describing equations. In these cases,
+the equations describe the shape of the resulting cells, allowing for RBCs by
+<code class="docutils literal notranslate"><span class="pre">RBC_FROM_SPHERE</span></code>, platelets by <code class="docutils literal notranslate"><span class="pre">ELLIPSOID_FROM_SPHERE</span></code>, and WBCs by
+<code class="docutils literal notranslate"><span class="pre">WBC_SPHERE</span></code>. These are then combined with a desired material model using the
+<code class="docutils literal notranslate"><span class="pre">hemocell.addCellType&lt;M&gt;(name,</span> <span class="pre">S)</span></code> with <code class="docutils literal notranslate"><span class="pre">M</span></code> a material model and <code class="docutils literal notranslate"><span class="pre">S</span></code> the
+desired shape. For instance, typical RBCs are specified as</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">RbcHighOrderModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;RBC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">RBC_FROM_SPHERE</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="reading-cells-from-stl">
+<h2>Reading cells from STL<a class="headerlink" href="#reading-cells-from-stl" title="Permalink to this headline">¶</a></h2>
+<p>Alternatively, cells can be loaded from STL directly. In that case, we change
+the desired shape argument <code class="docutils literal notranslate"><span class="pre">S</span></code> to <code class="docutils literal notranslate"><span class="pre">MESH_FROM_STL</span></code> indicating that we want to
+read the shape from an STL file. The path to this file should be given in the
+corresponding <code class="docutils literal notranslate"><span class="pre">CELL.xml</span></code> file, where <code class="docutils literal notranslate"><span class="pre">CELL</span></code> is to be replaced with the used
+string identifier for the cell type. The path should be provided in the
+<code class="docutils literal notranslate"><span class="pre">&lt;hemocell&gt;&lt;MaterialModel&gt;&lt;StlFile&gt;</span></code> tag of the configuration file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The specification of a custom shape can still be combined with typical
+material models, however, care has to be taken that this combination still
+makes sense physically. For more advanced use-cases, one might consider to
+implement a correpsonding material model as well.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current STL reader only supports STL files written in ASCII format. Most
+software migth nowadays write STL using a binary format by default, so care
+should be taken to provide the STL file in ASCII format.</p>
+</div>
+</section>
+<section id="cell-shapes-example">
+<h2>Cell shapes example<a class="headerlink" href="#cell-shapes-example" title="Permalink to this headline">¶</a></h2>
+<p>The example in <code class="docutils literal notranslate"><span class="pre">examples/cell_shapes</span></code> presents a small overview of different
+type of cell types embedded in a small cubic domain, where the main file,
+<code class="docutils literal notranslate"><span class="pre">examples/cell_shapes/cell_shapes.cpp</span></code> illustrates the initialisation of each
+cell.</p>
+<p>We consider four different cell types:</p>
+<ul>
+<li><p>Standard, <em>healthy</em> red blood cells</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">RbcHighOrderModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;RBC_HO&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">RBC_FROM_SPHERE</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Platelets using different levels of mesh refinement. The refinement level has
+been specific in <code class="docutils literal notranslate"><span class="pre">PLT.xml</span></code> using the
+<code class="docutils literal notranslate"><span class="pre">&lt;hemocell&gt;&lt;materialModel&gt;&lt;minNumTriangles&gt;</span></code> configuration parameter.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">PltSimpleModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;PLT&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ELLIPSOID_FROM_SPHERE</span><span class="p">);</span><span class="w"></span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">PltSimpleModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;PLT_HO&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ELLIPSOID_FROM_SPHERE</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>White blood (spherical) cells</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">WbcHighOrderModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;WBC_HO&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">WBC_SPHERE</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Deformed red blood cells, read from STL. These load the geometry of the RBC
+directly from STL representing late-stage Malaria invested RBC models.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">WbcHighOrderModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;RBC_FROM_STL&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">MESH_FROM_STL</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+<figure class="align-center" id="id1" style="width: 90%">
+<img alt="Different cell shapes." src="../_images/cell-shapes.png" />
+<figcaption>
+<p><span class="caption-text">Illustration of different cell types supported in HemoCell. The yellow cells
+represent two platelets with a different number of minimum triangles used.
+The left discretisation uses less triangles, resulting in a less accurate but
+more performant surface representation. The white sphere corresponds to the
+white blood cell. The red cell to a healthy, “standard” shaped red blood
+cell. The orange cell corresponds to a cell geometry directly loaded through
+STL, representing a red blood cell to model a late-stage Malaria invested red
+blood cell.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Custom cells and reading cells from STL</a><ul>
+<li><a class="reference internal" href="#specifying-cell-types">Specifying cell types</a></li>
+<li><a class="reference internal" href="#reading-cells-from-stl">Reading cells from STL</a></li>
+<li><a class="reference internal" href="#cell-shapes-example">Cell shapes example</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../advanced_cases.html"
+                          title="previous chapter">Advanced use-cases</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pure_flow_simulations.html"
+                          title="next chapter">Running a pure fluid flow</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/advanced_cases/custom_cells.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pure_flow_simulations.html" title="Running a pure fluid flow"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../advanced_cases.html" title="Advanced use-cases"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../advanced_cases.html" >Advanced use-cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Custom cells and reading cells from STL</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

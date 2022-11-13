@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Configuration Files &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Helper scripts" href="helper_scripts.html" />
+    <link rel="prev" title="Creating your own HemoCell Case" href="Case.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="helper_scripts.html" title="Helper scripts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Case.html" title="Creating your own HemoCell Case"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration Files</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="configuration-files">
+<h1>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h1>
+<section id="config-xml">
+<h2>Config.xml<a class="headerlink" href="#config-xml" title="Permalink to this headline">¶</a></h2>
+<p>The configuration that is used at runtime by the case. The configuration file
+should be valid XML. The first tag should always be <code class="docutils literal notranslate"><span class="pre">&lt;hemocell&gt;</span></code>. Within the
+HemoCell you can specify any tag that can be used in your simulation after you
+initialized the config file like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="o">.</span><span class="n">cfg</span><span class="p">)[</span><span class="s2">&quot;domain&quot;</span><span class="p">][</span><span class="s2">&quot;&lt;your attribute&gt;&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="o">&lt;</span><span class="nb">type</span><span class="o">&gt;</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Most tags are used within the HemoCell framework to configure options. However
+some are used from the <strong>case.cpp</strong> file and thus are not present in all cases.
+These options are denoted with a bold <strong>case.cpp</strong>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;hemocell&gt;</span></code> outer tag, used for identification</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;verbose&gt;</span></code> options related to verbosity</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;cellsDeletedInfo&gt;</span></code> option to print the location of deleted cells,
+because this option needs to aggregate location data with an if statement it
+has a small performance impact and is disabled by default</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;parameters&gt;</span></code> parameters regarding the simulation, some options might be
+moved but are still here because of legacy reasons.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;warmup&gt;</span></code> <strong>case.cpp</strong> files to let the fluid field warm
+up (usually develop a parabolic profile) before placing the cells into the
+flow. the argument is an integer and that many iterations of the fluid field
+are usually performed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;prctForced&gt;</span></code> <strong>case.cpp</strong> Percentage (between 0-1) of points of the
+cell over which a stretchingforce is applied. Only used in stretchCell.cpp</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;stretchForce&gt;</span></code> <strong>case.cpp</strong> Total stretching force (in pN) applied to
+the cell. Only used in stretchCell.cpp</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;outputDirectory&gt;</span></code> The base directory where output is saved, _x is
+appended if the directory already exists.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;checkpointDirectory&gt;</span></code> A relative directory (to the output directory)
+where the checkpoints (if any are requested) are saved.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;logDirectory&gt;</span></code> A directory relative to the output directory where the
+logfiles are saved</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;logFile&gt;</span></code> The name of a logfile, if such a name exists then .x is
+appended (useful for restarting from a checkpoint)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;ibm&gt;</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;radius&gt;</span></code> <strong>case.cpp</strong> Used only in oneCellShear as the original radius
+of the cell currently being sheared.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;stepMaterialEvery&gt;</span></code> <strong>case.cpp</strong> Update the particle material model after this many fluid time steps</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;stepParticleEvery&gt;</span></code> <strong>case.cpp</strong> Update particle velocity after this many fluid time steps</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;fluidEnvelope&gt;</span></code> <strong>case.cpp</strong> Legacy option, must be 2 if used</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;geometry&gt;</span></code> <strong>case.cpp</strong> Used within the pipeflow case to denote the
+location of the stl file which is used to create the boundaries</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;rhoP&gt;</span></code> Density of the fluid in SI units (kg/m³)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;nuP&gt;</span></code>  Viscosity of the fluid (specifically the blood plasma in the case of HemoCell) in SI units (m²/s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;dx&gt;</span></code> The length of a lattice unit in SI (m)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;dt&gt;</span></code> The duration of one timestep in LBM in SI units (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;refDir&gt;</span></code> <strong>case.cpp</strong> Used for determining reference direction of system when created from stl-file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;refDirN&gt;</span></code> <strong>case.cpp</strong> The number of lattice nodes in the refDir direction. used in
+conjunction with refDir. And for bodyforce calculations from <code class="docutils literal notranslate"><span class="pre">&lt;Re&gt;</span></code> as well</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;blockSize&gt;</span></code> <strong>case.cpp</strong> Used to set a desired edge-size of an atomic block. Usefull in combination with load balancing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;kBT&gt;</span></code> the boltzmann constant times the temperature. in SI (m² kg s¯² (or J) for T=300)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;Re&gt;</span></code> Used for calculation of a bodyforce if used. <strong>Note:</strong> calculated
+bodyforce must still be applied within <strong>case.cpp</strong>, otherwise this has no
+effect</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;particleEnvelope&gt;</span></code> This option is denoted in <code class="docutils literal notranslate"><span class="pre">&lt;dx&gt;</span></code>. Should be a bit larger than the longest stretch of
+a particle in the current simulation. otherwise particles will be deleted.
+Usually a value of 25 is used, otherwise a warning is displayed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;kRep&gt;</span></code> <strong>case.cpp</strong> Repulsion constant used for repulsion force.
+Uncomment line in pipeflow.cpp if you want to use this.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;RepCutoff&gt;</span></code> <strong>case.cpp</strong> Cutoff distance in <strong>micrometer!</strong> for the
+repulsion force. Uncomment line in pipeflow.cpp if you want to use this.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;sim&gt;</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;tmax&gt;</span></code> <strong>case.cpp</strong> Total number of iterations to run simulation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;tmeas&gt;</span></code> <strong>case.cpp</strong> Interval after wich data is written</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;tcheckpoint&gt;</span></code> <strong>case.cpp</strong> Interval after which data is checkpointed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;tbalance&gt;</span></code> <strong>case.cpp</strong> Interval after which atomic blocks are balanced over processors, only in combination with load-balancing library</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="cell-xml-and-cell-pos">
+<h2>CELL.xml and CELL.pos<a class="headerlink" href="#cell-xml-and-cell-pos" title="Permalink to this headline">¶</a></h2>
+<p>The configuration that defines a celltype (.xml) and where those cells should be
+positioned (.pos). The <code class="docutils literal notranslate"><span class="pre">&lt;Cell&gt;.xml</span></code> file should be a valid xml file. The outer tag
+should be <code class="docutils literal notranslate"><span class="pre">&lt;hemocell&gt;</span></code> and within it should be a tag called <code class="docutils literal notranslate"><span class="pre">&lt;MaterialModel&gt;</span></code>.
+Within <code class="docutils literal notranslate"><span class="pre">&lt;Materialmodel&gt;</span></code> The following tags are used, also depending on the
+material model used (defined as template in the addCellType function within a <strong>case.cpp</strong> file). For
+example: The red blood cell material model will ignore inner edges.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>kBend</strong> Bending force modulus for membrane + cytoskeleton (in <strong>kBT</strong> units)</p></li>
+<li><p><strong>kVolume</strong> Volume conservation coefficient (dimensionless)</p></li>
+<li><p><strong>kArea</strong> Local area conservation coefficient (dimensionless)</p></li>
+<li><p><strong>kLink</strong> Link force coefficient (dimensionless)</p></li>
+<li><p><strong>minNumTriangles</strong> Minimum number of triangles to create when not loading
+stl file, final number can be larger</p></li>
+<li><p><strong>radius</strong> Radius of the cell in SI units (m). used for scaling in HemoCell</p></li>
+<li><p><strong>Volume</strong> Volume of a cell in µm, only used for density output.</p></li>
+<li><p><strong>enableInteriorViscosity</strong> [0,1] use enable viscosity, should be used in
+combination with <strong>viscosityRatio</strong></p></li>
+<li><p><strong>viscosityRatio</strong> ratio between interior and exterior viscosity</p></li>
+<li><p><strong>eta_m</strong> membrane viscosity, currently not used</p></li>
+<li><p><strong>InnerEdges</strong> contains <strong>Edge</strong> which contains two integers denoting which
+vertices in the model should have an inner edge between them.</p></li>
+</ul>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;Cell&gt;.pos</span></code> file should contain the number of cells (and thus number of following
+lines) on the first line. Then each following line should contain 6 floats.
+the first three deterimine the place in µm in X,Y,Z respectively and the last three determine
+the rotation in degrees in X,Y,Z respectively</p>
+</section>
+<section id="config-constant-defaults-h">
+<span id="constants"></span><h2>config/constant_defaults.h<a class="headerlink" href="#config-constant-defaults-h" title="Permalink to this headline">¶</a></h2>
+<p>This file is used to define compile time constants for the HemoCell library. The
+HemoCell library (in build/hemocell) is used to link all the <strong>case.cpp</strong> files
+against. For example, whenever you want to use HemoCell with interior viscosity
+you must uncomment <code class="docutils literal notranslate"><span class="pre">#define</span> <span class="pre">INTERIOR_VISCOSITY</span></code> such that it is enabled. Below
+we listed the options present in this file and when you can use them</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SOLIDIFY_MECHANICS</span></code> Used for thrombus formation, relevant examples and
+source code is not yet available in V2.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INTERIOR_VISCOSITY</span></code> Enable if you want to run cases with interior
+viscosity, adds two vectors to the HemoCellparticle class, and thus has a
+measurable performance impact (don’t enable when not needed)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HEMOCELL_MATERIAL_INTEGRATION</span></code> Defines how the velocity of the fluid is
+integrated to the particles. Euler [1] or Adams-Bashforth [2]. See
+<code class="docutils literal notranslate"><span class="pre">src/hemoCellParticle.h</span></code> for implementation details</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DESCRIPTOR</span></code> The collision operator and dimensionality of the underlying
+lattice boltzmann fluid. This collision operator is only used in the Palabos
+part of HemoCell, find more information about it on <a class="reference external" href="https://palabos.unige.ch/">Palabos</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FORCE_LIMIT</span></code> Limits the force the particles can exert on the fluid field.
+This means that a particle can deform more, but in return the fluid field
+stays stable. The force is in picoNewton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HEMOCELL_PARTICLE_FILED</span></code> This has been built in and can’t change anymore,
+it used to be interchangable with Palabos particle fields very early on.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OUTPUT_XXX</span></code> Defines the outputs that can be requested in a <strong>case.cpp</strong> for
+either the fluid or the cells.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code> It is possible to define <code class="docutils literal notranslate"><span class="pre">T</span></code> as float instead of double, this
+decreases accuracy but increases speed, also decreases memory footprint.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">constructMeshElement</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">RBC_FROM_SPHERE</span></code> create the RBC model from mathematical equations (see
+HemoCell paper), accepts a minimum number of to be created vertices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ELLIPSOID_FROM_SPHERE</span></code> mathimatically create a discretization which is
+mainly used for the PLT model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STRING_FROM_VERTEXES</span></code> legacy, not used anymore</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WBC_SPHERE</span></code> mathematically create a sphere in the form of a white blood
+cell</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MESH_FROM_STL</span></code> load the vertices from a stl file defined in the CELL.xml
+file</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Configuration Files</a><ul>
+<li><a class="reference internal" href="#config-xml">Config.xml</a></li>
+<li><a class="reference internal" href="#cell-xml-and-cell-pos">CELL.xml and CELL.pos</a></li>
+<li><a class="reference internal" href="#config-constant-defaults-h">config/constant_defaults.h</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Case.html"
+                          title="previous chapter">Creating your own HemoCell Case</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="helper_scripts.html"
+                          title="next chapter">Helper scripts</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/xml_files.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="helper_scripts.html" title="Helper scripts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Case.html" title="Creating your own HemoCell Case"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration Files</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+<map id="geom::EllipseDomain" name="geom::EllipseDomain">
+<area shape="rect" id="node1" title="An ellipsoidal domain functional returning true inside the ellipsoid. The EllipseDomain represents an..." alt="" coords="17,79,163,104"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,175,31"/>
+</map>

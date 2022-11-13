@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Capillary flow &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating your own HemoCell Case" href="../Case.html" />
+    <link rel="prev" title="Pipe flow with periodic inflow" href="pipeflow_with_preinlet.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Case.html" title="Creating your own HemoCell Case"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pipeflow_with_preinlet.html" title="Pipe flow with periodic inflow"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" accesskey="U">Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Capillary flow</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="capillary-flow">
+<h1>Capillary flow<a class="headerlink" href="#capillary-flow" title="Permalink to this headline">¶</a></h1>
+<p>The example in <code class="docutils literal notranslate"><span class="pre">examples/capillary</span></code> presents two example cases where a single
+white blood cell (WBC) is flowing through a narrow capillary. The considered
+channels have smaller diameters compared to the WBC, requiring the cell to
+undergo deformations as it squeezes through the channels.</p>
+<p>Two variations are presented: a wedge-like geometry and a bifurcating channel,
+with their details given in the subsequent sections. The code for both examples
+is presented in a single main file <code class="docutils literal notranslate"><span class="pre">examples/capillary/capillar.cpp</span></code> where an
+enumerated type <code class="docutils literal notranslate"><span class="pre">Scenario</span></code> is presented to toggle between both cases. To run a
+specific example, you can modify the scenario definition at the top of the file
+to match with the desired example case.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">scenario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Scenario</span><span class="o">::</span><span class="n">Wedge</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">scenario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Scenario</span><span class="o">::</span><span class="n">Bifurcation</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The specific code of each example is given in <code class="docutils literal notranslate"><span class="pre">wedge.cpp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">bifurcation.cpp</span></code> for the <code class="docutils literal notranslate"><span class="pre">Wedge</span></code> and <code class="docutils literal notranslate"><span class="pre">Bifurcation</span></code> scenarios
+respectively. After selecting a scenario, the compilation steps are identical to
+other the example cases, see <a class="reference internal" href="../QuickStart.html#compilation"><span class="std std-ref">compilation</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Both examples require that the white blood cell’s solid core is smaller than
+the gaps between the solid domains, i.e. the gap between the wedges or the
+diameter of the bifurcating capillaries. This ensures that the WBC can
+undergo sufficient deformations to squeeze through the channels. The size of
+the solid core can be specified through the <code class="docutils literal notranslate"><span class="pre">&lt;MaterialModal&gt;&lt;coreRadius&gt;</span></code>
+parameter in the <code class="docutils literal notranslate"><span class="pre">WBC_wedge.xml,</span> <span class="pre">WBC_bifurcation.xml</span></code> configuration files.</p>
+</div>
+<section id="squeezing-through-a-gap-scenario-wedge">
+<h2>Squeezing through a gap (<code class="docutils literal notranslate"><span class="pre">Scenario::Wedge</span></code>)<a class="headerlink" href="#squeezing-through-a-gap-scenario-wedge" title="Permalink to this headline">¶</a></h2>
+<p>The first example (<code class="docutils literal notranslate"><span class="pre">Scenario::Wedge</span></code>) considers a single white blood cell
+(WBC) flowing through a narrow gap between two triangular wedges. Since the
+outer diameter of the WBC is larger than the considered gap in the solid
+geometry, the cell is compressed and squeezes through the gap. As the cell
+passes through the gap, the distance to the solid regions increases and the cell
+relaxes again. For reference material, please refer to Figure 3 of the
+corresponding publication by <a class="reference external" href="https://doi.org/10.1371/journal.pcbi.1005726">Lykov et al. (2017)</a>.</p>
+<figure class="align-center" id="id1" style="width: 90%">
+<img alt="Cell flowing through wedge" src="../_images/capillary-wedge.png" />
+<figcaption>
+<p><span class="caption-text">A white blood cell (WBC) as it flows through a wedge-like geometry. The cell
+is shown in four different configurations as it passes through the gap.
+Sinigificant deformations are observed that relax again once the cell has
+fully passed the smallest diameter of the gap. The shown velocity magnitude
+(blue to red) corresponds to the second deformation, i.e. when the cell
+passes through the smallest diameter.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="a-bifurcating-capillary-scenario-bifurcation">
+<h2>A bifurcating capillary (<code class="docutils literal notranslate"><span class="pre">Scenario::Bifurcation</span></code>)<a class="headerlink" href="#a-bifurcating-capillary-scenario-bifurcation" title="Permalink to this headline">¶</a></h2>
+<p>The second example (<code class="docutils literal notranslate"><span class="pre">Scenario::Bifurcation</span></code>) considers a single white blood cell
+(WBC) flowing through one of two capillaries. The domain starts with a single
+inlet that branches in two capillaries of equal length and cross-section.
+Similar to the wedge-like geometry (<code class="docutils literal notranslate"><span class="pre">Scenario::Wedge</span></code>) the cell is smaller
+than the diameter of the capillary, resulting in significant cell deformations.</p>
+<figure class="align-center" id="id2" style="width: 90%">
+<img alt="Cell flowing through bifurcation" src="../_images/capillary-bifurcation.png" />
+<figcaption>
+<p><span class="caption-text">A white blood cell (WBC) as it passes into one of two identical capillaries
+past the bifurcation. The cell is show for four different configurations as
+it passes through the channel. Significat deformations are observed when the
+cell squeezed through the bottom capillary. The velocity magnitude is
+depicted (blue to red) for the second-last position of the WBC.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="adding-repulsive-forces">
+<h2>Adding repulsive forces<a class="headerlink" href="#adding-repulsive-forces" title="Permalink to this headline">¶</a></h2>
+<p>Both examples are evaluated without any repulsive forces between the cells and
+the walls of the channel. To include repulsive forces, please refer to advanced
+case regarding <a class="reference internal" href="../advanced_cases/repulsion.html#repulsive-forces"><span class="std std-ref">repulsive forces</span></a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Capillary flow</a><ul>
+<li><a class="reference internal" href="#squeezing-through-a-gap-scenario-wedge">Squeezing through a gap (<code class="docutils literal notranslate"><span class="pre">Scenario::Wedge</span></code>)</a></li>
+<li><a class="reference internal" href="#a-bifurcating-capillary-scenario-bifurcation">A bifurcating capillary (<code class="docutils literal notranslate"><span class="pre">Scenario::Bifurcation</span></code>)</a></li>
+<li><a class="reference internal" href="#adding-repulsive-forces">Adding repulsive forces</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pipeflow_with_preinlet.html"
+                          title="previous chapter">Pipe flow with periodic inflow</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Case.html"
+                          title="next chapter">Creating your own HemoCell Case</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cases/capillary_flow.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Case.html" title="Creating your own HemoCell Case"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pipeflow_with_preinlet.html" title="Pipe flow with periodic inflow"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" >Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Capillary flow</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

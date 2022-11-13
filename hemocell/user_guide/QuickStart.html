@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>HemoCell Getting Started &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example cases" href="hemocell_cases.html" />
+    <link rel="prev" title="HemoCell" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="hemocell_cases.html" title="Example cases"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="HemoCell"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">HemoCell Getting Started</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="hemocell-getting-started">
+<h1>HemoCell Getting Started<a class="headerlink" href="#hemocell-getting-started" title="Permalink to this headline">¶</a></h1>
+<section id="setting-up-hemocell-from-source">
+<span id="from-source"></span><h2>Setting up HemoCell from source<a class="headerlink" href="#setting-up-hemocell-from-source" title="Permalink to this headline">¶</a></h2>
+<p>Requirements for compiling and/or running HemoCell from source:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dependency</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://www.open-mpi.org/">OpenMpi</a> or <a class="reference external" href="https://software.intel.com/content/www/us/en/develop/tools/mpi-library.html">IntelMPI</a></p></td>
+<td><p>1.10.2 or 17.0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://gcc.gnu.org/">GCC</a></p></td>
+<td><p>5.2.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://cmake.org/">CMake</a></p></td>
+<td><p>3.7.2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://www.hdfgroup.org/">HDF5</a></p></td>
+<td><p>1.8.16</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://savannah.gnu.org/projects/patch/">GNU Patch</a></p></td>
+<td><p>2.7.5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://www.h5py.org/">h5py</a></p></td>
+<td><p>2.6.0-1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://palabos.unige.ch/">Palabos</a></p></td>
+<td><p>2.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview">Parmetis</a> (optional)</p></td>
+<td><p>4.0.3</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These are minimal requirements, avoid OpenMPI 2.0.X as in our experience it
+introduces memory leaks.</p>
+</div>
+<p>On Ubuntu 16.04 most of these dependencies can be installed by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> \
+      <span class="n">make</span> \
+      <span class="n">cmake</span> \
+      <span class="n">g</span><span class="o">++-</span><span class="mi">5</span> \
+      <span class="n">g</span><span class="o">++</span> \
+      <span class="n">libopenmpi</span><span class="o">-</span><span class="n">dev</span> \
+      <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span> \
+      <span class="n">patch</span> \
+      <span class="n">python</span><span class="o">-</span><span class="n">h5py</span>
+</pre></div>
+</div>
+<p>This leaves the <a class="reference external" href="https://palabos.unige.ch/">Palabos</a> and <a class="reference external" href="http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview">Parmetis</a> dependencies. For Palabos we
+currently use the <code class="docutils literal notranslate"><span class="pre">v2.2.1</span></code> version with an additional patch. To automatically
+download this specific Palabos version and apply our patch, the setup script
+<code class="docutils literal notranslate"><span class="pre">hemocell/setup.sh</span></code> can be evaluated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># from ./hemocell/</span>
+<span class="o">./</span><span class="n">setup</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>You can also op to manually download Palabos through their <a class="reference external" href="https://gitlab.com/unigespc/palabos/-/releases">releases</a>. After downloading Palabos
+should be extracted to <code class="docutils literal notranslate"><span class="pre">./hemocell/palabos</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">palabos</span><span class="o">-</span><span class="n">v2</span><span class="mf">.2.1</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">mv</span> <span class="n">palabos</span><span class="o">-</span><span class="n">v2</span><span class="mf">.2.1</span> <span class="o">./</span><span class="n">hemocell</span><span class="o">/</span><span class="n">palabos</span>
+</pre></div>
+</div>
+<p>After this Palabos must be patched, see <a class="reference internal" href="helper_scripts.html#patching-palabos"><span class="std std-ref">hemocell/patch/patchPLB.sh</span></a>. This can be
+done by running <code class="docutils literal notranslate"><span class="pre">./patchPLB.sh</span></code> from the <code class="docutils literal notranslate"><span class="pre">./hemocell/patch/</span></code> directory, like
+so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">hemocell</span><span class="o">/</span><span class="n">patch</span> <span class="o">&amp;&amp;</span> <span class="o">./</span><span class="n">patchPLB</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The patching should succeed even though there might be an offset in some files.</p>
+<p><a class="reference external" href="http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview">Parmetis</a> can be downloaded from their <a class="reference external" href="http://glaros.dtc.umn.edu/gkhome/metis/parmetis/download">downloads</a>. Due to the
+license of Parmetis we cannot distribute it with hemocell. The Parmetis
+download should be copied to the  <code class="docutils literal notranslate"><span class="pre">./hemocell/external/</span></code> directory. If you
+need it because you want load balancing to be enabled you have to extract it
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">hemocell</span><span class="o">/</span><span class="n">external</span> <span class="o">&amp;&amp;</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">parmetis</span><span class="o">-</span><span class="mf">4.0.3</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+</section>
+<section id="compiling-hemocell-from-source">
+<span id="compilation"></span><h2>Compiling HemoCell from source<a class="headerlink" href="#compiling-hemocell-from-source" title="Permalink to this headline">¶</a></h2>
+<p>HemoCell can be compiled from source using <code class="docutils literal notranslate"><span class="pre">CMake</span></code>. In the root directory
+<code class="docutils literal notranslate"><span class="pre">./hemocell/</span></code>, execute the following instructions to configure and compile
+the HemoCell library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># within ./hemocell/</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>By default only the standard <code class="docutils literal notranslate"><span class="pre">hemocell</span></code> library is compiled. To compile
+specific examples, you should specify their corresponding compile targets.
+These targets are defined for each example and match the example’s directory
+name. Thus, to compile the example given in <code class="docutils literal notranslate"><span class="pre">hemocell/examples/pipeflow/pipeflow.cpp</span></code>
+you would compile the target <code class="docutils literal notranslate"><span class="pre">pipeflow</span></code>. After compilation, the executable
+<code class="docutils literal notranslate"><span class="pre">pipeflow</span></code> is placed under <code class="docutils literal notranslate"><span class="pre">hemocell/examples/pipeflow/</span></code>. You can indicate
+the desired compilation target to <code class="docutils literal notranslate"><span class="pre">CMake</span></code> through its <code class="docutils literal notranslate"><span class="pre">--target</span></code> flag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">target</span> <span class="n">pipeflow</span>
+</pre></div>
+</div>
+<p>If you intend to compile multiple targets, you can repeat the previous command for
+each individual target. Alternatively, if you have <code class="docutils literal notranslate"><span class="pre">CMake</span></code> version <code class="docutils literal notranslate"><span class="pre">&gt;=3.15</span></code>,
+you can specify a space-separated list of all targets directly, e.g. to compile both
+the <code class="docutils literal notranslate"><span class="pre">pipeflow</span></code> and <code class="docutils literal notranslate"><span class="pre">parachuting</span></code> examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">target</span> <span class="n">pipeflow</span> <span class="n">parachuting</span>
+</pre></div>
+</div>
+<p>To speed up the compilation process, <code class="docutils literal notranslate"><span class="pre">CMake</span></code> can exploit parallelism by
+providing the <code class="docutils literal notranslate"><span class="pre">--parallel</span></code> flag. For instance, to use all available cores on
+your machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cmake --build . --target pipeflow parachuting --parallel $(nproc)
+</pre></div>
+</div>
+<p>Afterwards, the <code class="docutils literal notranslate"><span class="pre">pipeflow</span></code> and <code class="docutils literal notranslate"><span class="pre">parachuting</span></code> executables are placed within
+the corresponding example’s directories, i.e. <code class="docutils literal notranslate"><span class="pre">examples/pipeflow</span></code> and
+<code class="docutils literal notranslate"><span class="pre">examples/parachuting</span></code>.</p>
+<p>To test if the library is successfully compiled, you can evaluate the defined
+tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+</section>
+<section id="generating-initial-positions-for-cells">
+<span id="packcells"></span><h2>Generating initial positions for cells<a class="headerlink" href="#generating-initial-positions-for-cells" title="Permalink to this headline">¶</a></h2>
+<p>At some point you might want to run a slightly different geometry, or run your
+simulation with a different concentration of cells. For this we offer the
+<code class="docutils literal notranslate"><span class="pre">packCells</span></code> tool which can be found in the <code class="docutils literal notranslate"><span class="pre">./hemocell/packCells</span></code> directory.</p>
+<p>This tool has a CMake file and can be build with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">./</span><span class="n">tools</span><span class="o">/</span><span class="n">packCells</span>
+<span class="n">mkdir</span> <span class="n">build</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">../</span>
+<span class="n">make</span>
+</pre></div>
+</div>
+<p>The result should be a <code class="docutils literal notranslate"><span class="pre">packCells</span></code> binary. This program offers a rich suite of
+options to generate initial conditions for cells. Just type <code class="docutils literal notranslate"><span class="pre">./packCells</span> <span class="pre">--help</span></code>
+to see how it works.</p>
+<p>The resulting <code class="docutils literal notranslate"><span class="pre">*.pos</span></code> files can be copied to the case where you want to use
+them.</p>
+</section>
+<section id="running-a-hemocell-case">
+<h2>Running a HemoCell case<a class="headerlink" href="#running-a-hemocell-case" title="Permalink to this headline">¶</a></h2>
+<p>A HemoCell case should be run within the folder containing the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.pos</span></code> files. You can specify the number of desired processors with
+<code class="docutils literal notranslate"><span class="pre">mpirun</span></code>. The only argument for the case should be the <code class="docutils literal notranslate"><span class="pre">config.xml</span></code> file.
+A typical command looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">hemocell</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">pipeflow</span>
+<span class="n">mpirun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">4</span> <span class="o">./</span><span class="n">pipeflow</span> <span class="n">config</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+</section>
+<section id="case-output-folder">
+<h2>Case output folder<a class="headerlink" href="#case-output-folder" title="Permalink to this headline">¶</a></h2>
+<p>The output of a case is usually written to the <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/tmp</span></code> folder. The
+checkpoints are the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">.dat</span></code> files. When a new checkpoint is
+created they are moved to <code class="docutils literal notranslate"><span class="pre">.xml.old</span> <span class="pre">and</span> <span class="pre">``.dat.old</span></code>. The hdf5 output is stored
+per timestep in <code class="docutils literal notranslate"><span class="pre">tmp/hdf5</span></code> and the csv output in <code class="docutils literal notranslate"><span class="pre">tmp/csv</span></code>. See
+<a class="reference internal" href="#read-output"><span class="std std-ref">Parsing the output of a HemoCell case</span></a> and <a class="reference internal" href="helper_scripts.html#bpp"><span class="std std-ref">hemocell/scripts/batchPostProcess.sh</span></a> for more info.</p>
+</section>
+<section id="parsing-the-output-of-a-hemocell-case">
+<span id="read-output"></span><h2>Parsing the output of a HemoCell case<a class="headerlink" href="#parsing-the-output-of-a-hemocell-case" title="Permalink to this headline">¶</a></h2>
+<p>A HemoCell case produces multiple types of output. The simplest is the <code class="docutils literal notranslate"><span class="pre">csv</span></code>
+output which consists of all the information about cells in csv files. To merge
+the csv files into a single one per time-step you can use the script <a class="reference internal" href="helper_scripts.html#ccsv"><span class="std std-ref">hemocell/scripts/CellInfoMergeCSV.sh</span></a>
+in the <code class="docutils literal notranslate"><span class="pre">tmp</span></code> directory. This will generate them for you.</p>
+<p>The more detailed output on both the fluid field and particle field is stored in
+<code class="docutils literal notranslate"><span class="pre">hdf5</span></code> format. We recommend using the <a class="reference external" href="http://xdmf.org/index.php/Main_Page">XDMF</a> format to make these
+readable for <a class="reference external" href="https://paraview.org">Paraview</a> . To generate <code class="docutils literal notranslate"><span class="pre">*.xmf</span></code> files run the <a class="reference internal" href="helper_scripts.html#bpp"><span class="std std-ref">hemocell/scripts/batchPostProcess.sh</span></a>
+script.</p>
+<p>When you have created the <code class="docutils literal notranslate"><span class="pre">*.xmf</span></code> files you can load them into Paraview,
+please select the <em>Legacy</em> XDMF file format when loading them in. The HemoCell
+<code class="docutils literal notranslate"><span class="pre">.xmf</span></code> files are not yet XDMF3 compatible.</p>
+</section>
+<section id="resuming-from-a-checkpoint">
+<h2>Resuming from a checkpoint<a class="headerlink" href="#resuming-from-a-checkpoint" title="Permalink to this headline">¶</a></h2>
+<p>To resume from a checkpoint you should run the executable from the directory you
+ran it originally from (so the directory with the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">.pos</span></code> files
+visible. The first argument should be <code class="docutils literal notranslate"><span class="pre">tmp{_x}/checkpoint/checkpoint.xml</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">config.xml</span></code>. HemoCell should then automatically resume from the last saved
+checkpoint.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of processors used when reusing from a checkpoint does not need
+to be the same as the number of processors used for the initial run.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">HemoCell Getting Started</a><ul>
+<li><a class="reference internal" href="#setting-up-hemocell-from-source">Setting up HemoCell from source</a></li>
+<li><a class="reference internal" href="#compiling-hemocell-from-source">Compiling HemoCell from source</a></li>
+<li><a class="reference internal" href="#generating-initial-positions-for-cells">Generating initial positions for cells</a></li>
+<li><a class="reference internal" href="#running-a-hemocell-case">Running a HemoCell case</a></li>
+<li><a class="reference internal" href="#case-output-folder">Case output folder</a></li>
+<li><a class="reference internal" href="#parsing-the-output-of-a-hemocell-case">Parsing the output of a HemoCell case</a></li>
+<li><a class="reference internal" href="#resuming-from-a-checkpoint">Resuming from a checkpoint</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">HemoCell</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="hemocell_cases.html"
+                          title="next chapter">Example cases</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/QuickStart.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="hemocell_cases.html" title="Example cases"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="HemoCell"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">HemoCell Getting Started</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

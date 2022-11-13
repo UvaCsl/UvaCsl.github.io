@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Utility tools &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Common mistakes" href="common_mistakes.html" />
+    <link rel="prev" title="Visualization and post-processing" href="visualization.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_mistakes.html" title="Common mistakes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="visualization.html" title="Visualization and post-processing"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Utility tools</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="utility-tools">
+<h1>Utility tools<a class="headerlink" href="#utility-tools" title="Permalink to this headline">¶</a></h1>
+<p>In addition to helper scripts (<a class="reference internal" href="helper_scripts.html#helper-scripts"><span class="std std-ref">Helper scripts</span></a>), HemoCell provides
+different utility tools under the <code class="docutils literal notranslate"><span class="pre">tools/</span></code> directory. Typically these provide
+more extensive functionality compared to the more simple helper scripts in
+<code class="docutils literal notranslate"><span class="pre">scripts/</span></code>.</p>
+<section id="viewing-of-cell-packings">
+<span id="pos-to-vtk"></span><h2>Viewing of cell packings<a class="headerlink" href="#viewing-of-cell-packings" title="Permalink to this headline">¶</a></h2>
+<p>When you are willing to inspect a distribution of cells, for instance as result
+of running the <code class="docutils literal notranslate"><span class="pre">packCell</span></code> tool, the <code class="docutils literal notranslate"><span class="pre">pos_to_vtk</span></code> command-line utility
+provides direct visualisation using using the corresponding cell position
+<code class="docutils literal notranslate"><span class="pre">pos</span></code>-files only. Default usage illustrates the cells positions, considering
+red blood cells, platelets, or a combination thereof, in a small GUI window.
+This allows to explore the cell distributions in an easy manner up to 100000s of
+cells. Furthermore, the script can convert the <code class="docutils literal notranslate"><span class="pre">pos</span></code>-files towards output
+files readable by Paraview, for when the cell counts are not properly handled
+anymore by the simple GUI display.</p>
+<p>The utility is easily installed within a virtual Python environment</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+
+<span class="c1"># or when editing the source code</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">editable</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Usage is straightforward, for instance</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show full usage and documentation</span>
+<span class="n">pos_to_vtk</span> <span class="o">--</span><span class="n">help</span>
+
+<span class="c1"># Show a RBC distribution</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span>
+
+<span class="c1"># Or pass through a pipe (the dash (-) is required)</span>
+<span class="n">cat</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">|</span> <span class="n">pos_to_vtk</span> <span class="o">-</span>
+
+<span class="c1"># Combine RBC distributions</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">/</span><span class="n">other</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span>
+
+<span class="c1"># Show RBC and PLT</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">--</span><span class="n">plt</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">PLT</span><span class="o">.</span><span class="n">pos</span>
+
+<span class="c1"># Export to XDMF for visualisation in, for example, Paraview</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">--</span><span class="n">output</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">output</span><span class="o">.</span><span class="n">xdmf</span>
+
+<span class="c1"># Clip cells to a bounding box</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">--</span><span class="n">bounding</span><span class="o">-</span><span class="n">box</span> <span class="mi">100</span> <span class="mi">50</span> <span class="mi">50</span> <span class="o">--</span><span class="n">clip</span>
+
+<span class="c1"># Clip cells to a surface mesh (STL)</span>
+<span class="n">pos_to_vtk</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">RBC</span><span class="o">.</span><span class="n">pos</span> <span class="o">--</span><span class="n">stl</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">mesh</span><span class="o">.</span><span class="n">stl</span> <span class="o">--</span><span class="n">clip</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Utility tools</a><ul>
+<li><a class="reference internal" href="#viewing-of-cell-packings">Viewing of cell packings</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="visualization.html"
+                          title="previous chapter">Visualization and post-processing</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="common_mistakes.html"
+                          title="next chapter">Common mistakes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/utilities.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_mistakes.html" title="Common mistakes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="visualization.html" title="Visualization and post-processing"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Utility tools</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

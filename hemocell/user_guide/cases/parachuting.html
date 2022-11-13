@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>A parachuting cell &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Colliding cells with interior viscosity" href="cellCollision_interior_viscosity.html" />
+    <link rel="prev" title="One stretching cell" href="stretchcell.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cellCollision_interior_viscosity.html" title="Colliding cells with interior viscosity"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="stretchcell.html" title="One stretching cell"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" accesskey="U">Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">A parachuting cell</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="a-parachuting-cell">
+<h1>A parachuting cell<a class="headerlink" href="#a-parachuting-cell" title="Permalink to this headline">¶</a></h1>
+<p>The example in <code class="docutils literal notranslate"><span class="pre">examples/parachuting</span></code> presents a example cases where a single
+red blood cell (RBC) is flowing, or “parachuting”, through a narrow pipe. The
+domain is obtained by voxelisation of a surface mesh of a tube given in STL
+format (<code class="docutils literal notranslate"><span class="pre">tube.stl</span></code>). After discretising the domain, the boundary conditions
+are applied to mimic an endless pipe flow by prescribing periodic conditions at
+either end. The flow is driven by an external force to achieve the desired,
+equivalent Poiseuille flow through the pipe. So, although only a small section
+of pipe is modelled, the RBC is flowing through an endless pipe.</p>
+<p>After <a class="reference internal" href="../QuickStart.html#compilation"><span class="std std-ref">compilation</span></a>, the example can be run using single core,
+or multiple cores, as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run the simulation from the `examples/parachuting` direc</span>
+<span class="n">mpirun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="o">./</span><span class="n">parachuting</span> <span class="n">config</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># generate Paraview compatible output files</span>
+<span class="o">../../</span><span class="n">scripts</span><span class="o">/</span><span class="n">batchPostProcess</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The output files are generated in <code class="docutils literal notranslate"><span class="pre">tmp/</span></code>, where the flow field and particle
+fields can be visualised separately by viewing the <code class="docutils literal notranslate"><span class="pre">tmp/Fluid.*.xmf</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tmp/RBC.*.xmf</span></code> files in <a class="reference external" href="https://www.paraview.org/">Paraview</a>.</p>
+<p>The RBC will be transported and deformed due to the available flow profile in
+the pipe. This results in the typical deformation profile of the RBC within the
+pipe flow, giving rise to the “parachuting” name.</p>
+<figure class="align-center" id="id1" style="width: 90%">
+<img alt="A parachuting cell." src="../_images/parachuting.png" />
+<figcaption>
+<p><span class="caption-text">Three different stages of the RBC embedded in the pipe flow. The left-most
+figure shows the initial condition of the RBC, where the right-most
+illustrates the final steady-state configuration of the RBC after the initial
+deformations in the Poiseuille flow. The glyphs illustrate the velocity
+field corresponding to the middle snapshot of the RBC.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id2" style="width: 90%">
+<img alt="A parachuting cell." src="../_images/parachuting-sideview.png" />
+<figcaption>
+<p><span class="caption-text">A side view of the previous figure illustrating more clearly the
+crosssectional profile of the RBC at the three different stages. Again the
+glyphs illustrate the velocity field corresponding to the middle
+configuration of the RBC.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The problem can be configured by changing values in the <code class="docutils literal notranslate"><span class="pre">config.xml</span></code> file, for
+instance to change the number of output iterations by <code class="docutils literal notranslate"><span class="pre">&lt;sim&gt;&lt;tmeas&gt;</span></code>, the
+Reynolds number <code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;&lt;Re&gt;</span></code>, or the discretisation size of the domain
+<code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;&lt;refDirN&gt;</span></code>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">A parachuting cell</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="stretchcell.html"
+                          title="previous chapter">One stretching cell</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cellCollision_interior_viscosity.html"
+                          title="next chapter">Colliding cells with interior viscosity</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cases/parachuting.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cellCollision_interior_viscosity.html" title="Colliding cells with interior viscosity"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="stretchcell.html" title="One stretching cell"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" >Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">A parachuting cell</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

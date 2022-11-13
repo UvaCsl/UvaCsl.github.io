@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Example cases &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="One shearing cell" href="cases/onecellshear.html" />
+    <link rel="prev" title="HemoCell Getting Started" href="QuickStart.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cases/onecellshear.html" title="One shearing cell"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="QuickStart.html" title="HemoCell Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Example cases</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="example-cases">
+<h1>Example cases<a class="headerlink" href="#example-cases" title="Permalink to this headline">¶</a></h1>
+<p>The following examples illustrate various use cases of HemoCell. The examples
+range from relatively simple single cell problem definitions, to more complex
+Bulk flow problems. The single cell problems, such as a single
+<a class="reference internal" href="cases/onecellshear.html#one-shearing-cell"><span class="std std-ref">shearing</span></a> or
+<a class="reference internal" href="cases/stretchcell.html#one-stretching-cell"><span class="std std-ref">stretching</span></a> focus more on the
+material models and behaviour of individual cells in specific. These can be
+excellent starting points when implementing or modifying specific cell
+mechanics.</p>
+<p>A next step might then be the analysis of single cell’s deformation under straight-channel flow conditions, which is illustrated by the <a class="reference internal" href="cases/parachuting.html#a-parachuting-cell"><span class="std std-ref">parachuting</span></a> example followed by cell-cell
+interactions and collisions between multiple cells
+in <a class="reference internal" href="cases/cellCollision_interior_viscosity.html#colliding-cells-with-interior-viscosity"><span class="std std-ref">Colliding cells with interior viscosity</span></a>.
+Note that due to the fluid solid coupling scheme, the immersed boundary method, the cell membranes already touch when they are half IBM kernel-width apart.</p>
+<p>Afterwards, we present to variations on a pipe flow condition using higher cell
+counts and how to use the <code class="docutils literal notranslate"><span class="pre">pre-inlet</span></code> boundary conditions. These examples can
+be excellent starting positions for typical simulations.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cases/onecellshear.html">One shearing cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/stretchcell.html">One stretching cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/parachuting.html">A parachuting cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/cellCollision_interior_viscosity.html">Colliding cells with interior viscosity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/pipeflow.html">Pipe flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/pipeflow_with_preinlet.html">Pipe flow with periodic inflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases/capillary_flow.html">Capillary flow</a></li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="QuickStart.html"
+                          title="previous chapter">HemoCell Getting Started</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cases/onecellshear.html"
+                          title="next chapter">One shearing cell</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/hemocell_cases.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cases/onecellshear.html" title="One shearing cell"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="QuickStart.html" title="HemoCell Getting Started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Example cases</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

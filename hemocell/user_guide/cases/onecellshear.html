@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>One shearing cell &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="One stretching cell" href="stretchcell.html" />
+    <link rel="prev" title="Example cases" href="../hemocell_cases.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="stretchcell.html" title="One stretching cell"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../hemocell_cases.html" title="Example cases"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" accesskey="U">Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">One shearing cell</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="one-shearing-cell">
+<h1>One shearing cell<a class="headerlink" href="#one-shearing-cell" title="Permalink to this headline">¶</a></h1>
+<p>The example in <code class="docutils literal notranslate"><span class="pre">examples/oneCellShear</span></code> presents a single red blood cell
+(RBC) subjected to a shearing flow. The example provides a validation case for
+the different material models used in <code class="docutils literal notranslate"><span class="pre">HemoCell</span></code>.</p>
+<p>A single RBC is initialised in a fully periodic domain, i.e. periodicity is
+enabled for all boundaries. The domain is then subjected to a shearing flow in
+the <code class="docutils literal notranslate"><span class="pre">x</span></code>-direction. To achieve this flow field, the top and bottom surfaces are
+subjected to velocity boundary conditions in opposing directions. The largest
+diameter achieved by the RBC is reported and can be compared with respect to
+experimental data.</p>
+<p>After <a class="reference internal" href="../QuickStart.html#compilation"><span class="std std-ref">compilation</span></a>, the example can be run using single core as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run the simulation from the `examples/oneCellShear` directory</span>
+<span class="n">mpirun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="o">./</span><span class="n">oneCellShear</span> <span class="n">config</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># generate Paraview compatible output files</span>
+<span class="o">../../</span><span class="n">scripts</span><span class="o">/</span><span class="n">batchPostProcess</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The outcome files are generated in <code class="docutils literal notranslate"><span class="pre">tmp/</span></code>, where the flow field and particle
+fields can be visualised separately by respectively viewing the
+<code class="docutils literal notranslate"><span class="pre">tmp/Fluid.*.xmf</span></code> and <code class="docutils literal notranslate"><span class="pre">tmp/RBC.*.xmf</span></code> files.</p>
+<figure class="align-center" id="id1" style="width: 90%">
+<img alt="A single shearing cell" src="../_images/one-cell-shear.png" />
+<figcaption>
+<p><span class="caption-text">A single red blood cell subjected to a shearing flow in <code class="docutils literal notranslate"><span class="pre">x</span></code>-direction. The
+colours and glyps indicate the flow velocity and direction. The effect of the
+shearing flow becomes visible in the deformations of the RBC.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>A <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a> script is provided as well to visualise the largest diameter of the
+cell over the iterations, which can be invoked through</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gnuplot</span> <span class="n">shear</span><span class="o">.</span><span class="n">gpl</span>
+</pre></div>
+</div>
+<section id="tank-treading">
+<h2>Tank treading<a class="headerlink" href="#tank-treading" title="Permalink to this headline">¶</a></h2>
+<p>A simple variation of the single shearing RBC, is to consider the “tank
+treading” case. This considers a problem where the RBC is rotated in the domain
+and can be achieved by changing the loaded RBC properties by updating <code class="docutils literal notranslate"><span class="pre">&quot;RBC&quot;</span></code>
+used in the <code class="docutils literal notranslate"><span class="pre">oneCellShear.cpp</span></code> example to <code class="docutils literal notranslate"><span class="pre">&quot;RBC_tt&quot;</span></code>.</p>
+<figure class="align-center" id="id2" style="width: 90%">
+<img alt="A single shearing cell" src="../_images/one-cell-shear-tank-treading.png" />
+<figcaption>
+<p><span class="caption-text">A single red blood cell subjected to a shearing flow in <code class="docutils literal notranslate"><span class="pre">x</span></code>-direction in
+the “tank treading” configuration. The colours and glyps indicate the flow
+velocity and direction. The cell now “rotates” along with the shearing flow
+resulting in different deformations.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The imposed velocity is derived from the shear rate provided in the configuration
+file <code class="docutils literal notranslate"><span class="pre">config.xml</span></code>, where the shear rate can be set manually by updating the
+<code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;&lt;shearrate&gt;</span></code> entry. Note, this value specifies the shear rate in
+<code class="docutils literal notranslate"><span class="pre">1/s</span></code>.</p>
+</section>
+<section id="rendering">
+<h2>Rendering<a class="headerlink" href="#rendering" title="Permalink to this headline">¶</a></h2>
+<p>An example rendering pipeline with Blender is illustrated in the
+<code class="docutils literal notranslate"><span class="pre">hemocell/scripts/visualization/render_oneCellShear.py</span></code> script, for more
+information see <a class="reference internal" href="../visualization.html#blender"><span class="std std-ref">Rendering with Blender</span></a>.</p>
+<figure class="align-center" id="id3" style="width: 90%">
+<img alt="An example rendering using Blender" src="../_images/blender-render-example.png" />
+<figcaption>
+<p><span class="caption-text">An example rendering of the RBC using Blender.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">One shearing cell</a><ul>
+<li><a class="reference internal" href="#tank-treading">Tank treading</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#rendering">Rendering</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../hemocell_cases.html"
+                          title="previous chapter">Example cases</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="stretchcell.html"
+                          title="next chapter">One stretching cell</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cases/onecellshear.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="stretchcell.html" title="One stretching cell"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../hemocell_cases.html" title="Example cases"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HemoCell 2.6 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../hemocell_cases.html" >Example cases</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">One shearing cell</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

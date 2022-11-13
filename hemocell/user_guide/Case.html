@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Creating your own HemoCell Case &#8212; HemoCell 2.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration Files" href="xml_files.html" />
+    <link rel="prev" title="Capillary flow" href="cases/capillary_flow.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="xml_files.html" title="Configuration Files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cases/capillary_flow.html" title="Capillary flow"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Creating your own HemoCell Case</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="creating-your-own-hemocell-case">
+<h1>Creating your own HemoCell Case<a class="headerlink" href="#creating-your-own-hemocell-case" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial assumes that you have already compiled the HemoCell library
+following <a class="reference internal" href="QuickStart.html#from-source"><span class="std std-ref">Setting up HemoCell from source</span></a>.</p>
+<p>To add a new HemoCell case, you can follow the following steps:</p>
+<ul>
+<li><p>Duplicate the template directory <code class="docutils literal notranslate"><span class="pre">hemocell/examples/template</span></code> with the name
+of your case:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local: ~/hemocell/$ cp -r ./examples/template ./examples/newCase
+</pre></div>
+</div>
+<p>This provides a directory <code class="docutils literal notranslate"><span class="pre">case</span></code> with an already defined <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p>
+</li>
+<li><p>Register your case for compilation in <code class="docutils literal notranslate"><span class="pre">hemocell/examples/CMakeLists.txt</span></code> by
+appending a line containing <code class="docutils literal notranslate"><span class="pre">add_subdirectory(&quot;newCase&quot;)</span></code>. This ensures that
+<code class="docutils literal notranslate"><span class="pre">CMake</span></code> picks up the directory of your example during the compilation
+process and links it to the required libraries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local: ~/hemocell/examples$ cp -r template newCase
+user@local: ~/hemocell/examples$ echo &#39;add_subdirectory(&quot;newCase&quot;)&#39; &gt;&gt; CMakeLists.txt
+</pre></div>
+</div>
+</li>
+<li><p>Within this directory the main file should be defined. Here, we assume the
+file is given the same name as the directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local:~/hemocell/examples/case$ touch newCase.cpp
+</pre></div>
+</div>
+</li>
+</ul>
+<section id="editing-your-newcase-cpp">
+<h2>Editing your newCase.cpp<a class="headerlink" href="#editing-your-newcase-cpp" title="Permalink to this headline">¶</a></h2>
+<p>Firstly we have to include the headers we need in <code class="docutils literal notranslate"><span class="pre">newCase.cpp</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Include most of the interface offered by the HemoCell library</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hemocell.h&gt;</span><span class="cp"></span>
+<span class="c1">// This is the mechanical model for the cells that we want to use later on,</span>
+<span class="c1">// alternatives can be found in the mechanics folder</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rbcHighOrderModel.h&gt;</span><span class="cp"></span>
+<span class="c1">// These are functions found in the helpers folder, they are not in the core of</span>
+<span class="c1">// HemoCell but can be handy nonetheless</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cellInfo.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fluidInfo.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>After that we have to define a main function as this will become the main
+program. it is useful to include the <code class="docutils literal notranslate"><span class="pre">config.xml</span></code> file as first argument,
+and also check for it:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Usage: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &lt;configuration.xml&gt;&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The first thing that should be done in a HemoCell case is initializing the
+HemoCell object:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// The first argument is the config.xml location, the second and third argument</span>
+<span class="c1">// are necessary as a passthrough for the Palabos initialization</span>
+<span class="n">HemoCell</span><span class="w"> </span><span class="nf">hemocell</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Afterwards we must define the parameters for the lattice Boltzmann simulation.
+These are read in from the <code class="docutils literal notranslate"><span class="pre">config.xml</span></code> file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate and load in the lattice Boltzmann parameters from the config file</span>
+<span class="c1">// that will be used later on. Pretend that we are calculating the parameters</span>
+<span class="c1">// for a pipe, to get an acceptable maximum velocity.</span>
+<span class="n">param</span><span class="o">::</span><span class="n">lbm_pipe_parameters</span><span class="p">((</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">cfg</span><span class="p">),</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// Also print the parameters so we have visual confirmation.</span>
+<span class="n">param</span><span class="o">::</span><span class="n">printParameters</span><span class="p">();</span><span class="w"></span>
+
+<span class="c1">// Although we are not creating a pipe, we still must define a driving force,</span>
+<span class="c1">// We pretend that this is a pipe, therefore the resulting velocity will be higher,</span>
+<span class="c1">// but acceptable. It is possible to analytically solve this correctly if you</span>
+<span class="c1">// want.</span>
+<span class="n">T</span><span class="w"> </span><span class="n">poiseuilleForce</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">param</span><span class="o">::</span><span class="n">nu_lbm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="n">u_lbm_max</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">param</span><span class="o">::</span><span class="n">pipe_radius</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">param</span><span class="o">::</span><span class="n">pipe_radius</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Since we want to create the simplest possible case we do not load in any stl
+file but just create a cube with one periodic direction. An example of how to load in a stl file
+can be found in <code class="docutils literal notranslate"><span class="pre">pipeflow.cpp</span></code> within the <a class="reference internal" href="cases/pipeflow.html#pipe-flow"><span class="std std-ref">Pipe flow</span></a> case.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// First we create a Palabos management object</span>
+<span class="c1">// The first three arguments are the number of fluid cells in x,y and z</span>
+<span class="c1">// direction, so this is a 50x50x50 block, the fourth argument is the fluid</span>
+<span class="c1">// envelope size and must be two</span>
+<span class="n">MultiBlockManagement3D</span><span class="w"> </span><span class="n">management</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">defaultMultiBlockPolicy3D</span><span class="p">().</span><span class="n">getMultiBlockManagement</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Initialize the fluid lattice within hemocell</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">initializeLattice</span><span class="p">(</span><span class="n">management</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Just to be sure disable all periodicity. Afterwards enable it in the</span>
+<span class="c1">// x-direction</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="o">-&gt;</span><span class="n">periodicity</span><span class="p">().</span><span class="n">toggleAll</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span><span class="w"></span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="o">-&gt;</span><span class="n">periodicity</span><span class="p">().</span><span class="n">toggle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// Set up bounceback boundaries in the other directions</span>
+<span class="n">Box3D</span><span class="w"> </span><span class="nf">topChannel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">);</span><span class="w"></span>
+<span class="n">Box3D</span><span class="w"> </span><span class="nf">bottomChannel</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">Box3D</span><span class="w"> </span><span class="nf">backChannel</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">);</span><span class="w"></span>
+<span class="n">Box3D</span><span class="w"> </span><span class="nf">frontChannel</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">defineDynamics</span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="p">,</span><span class="w"> </span><span class="n">topChannel</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BounceBack</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">DESCRIPTOR</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="n">defineDynamics</span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="p">,</span><span class="w"> </span><span class="n">bottomChannel</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BounceBack</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">DESCRIPTOR</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="n">defineDynamics</span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="p">,</span><span class="w"> </span><span class="n">backChannel</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BounceBack</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">DESCRIPTOR</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="n">defineDynamics</span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="p">,</span><span class="w"> </span><span class="n">frontChannel</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BounceBack</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">DESCRIPTOR</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="c1">//Disable statistics to run faster</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="o">-&gt;</span><span class="n">toggleInternalStatistics</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span><span class="w"></span>
+<span class="c1">//Equilibrate everything</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">latticeEquilibrium</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="n">plb</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">));</span><span class="w"></span>
+<span class="c1">//Finalize everything</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="o">-&gt;</span><span class="n">initialize</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then we set up the rest of the simulation, the comments should explain
+everything:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">//After we set up the fluid, it is time to set up the particles in the</span>
+<span class="c1">//simulation</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">initializeCellfield</span><span class="p">();</span><span class="w"></span>
+
+<span class="c1">// Add a particleType to the simulation, the template argument refers to the</span>
+<span class="c1">// corresponding mechanics in the mechanics/ folder</span>
+<span class="c1">// The first argument must correspond with the CELL.xml and CELL.pos present in</span>
+<span class="c1">// the directory (where CELL is the string input).</span>
+<span class="c1">// The second argument defines how a cell is build up. see</span>
+<span class="c1">// config/constant_defaults.h for options.</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">addCellType</span><span class="o">&lt;</span><span class="n">RbcHighOrderModel</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;RBC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">RBC_FROM_SPHERE</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Only update the forces resulting from the mechanical deformation every X</span>
+<span class="c1">// timesteps, recalculating this is the most costly step and since our</span>
+<span class="c1">// timestep is so small it can be done intermittently</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">setMaterialTimeScaleSeparation</span><span class="p">(</span><span class="s">&quot;RBC&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Only update the integrated velocity (from the fluid field to the particles)</span>
+<span class="c1">// every X timesteps.</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">setParticleVelocityUpdateTimeScaleSeparation</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Request outputs from the simulation, here we have requested all of the</span>
+<span class="c1">// possible outputs!</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">setOutputs</span><span class="p">(</span><span class="s">&quot;RBC&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">OUTPUT_POSITION</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_FORCE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">OUTPUT_FORCE_VOLUME</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_FORCE_BENDING</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_FORCE_REPULSION</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">OUTPUT_FORCE_LINK</span><span class="p">,</span><span class="n">OUTPUT_FORCE_AREA</span><span class="p">,</span><span class="n">OUTPUT_FORCE_VISC</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">OUTPUT_INNER_LINKS</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_CELL_ID</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_VERTEX_ID</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">setFluidOutputs</span><span class="p">(</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">OUTPUT_VELOCITY</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_DENSITY</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_FORCE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">OUTPUT_SHEAR_RATE</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_STRAIN_RATE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">OUTPUT_SHEAR_STRESS</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_BOUNDARY</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT_OMEGA</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">OUTPUT_CELL_DENSITY</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Turn on periodicity in the X direction</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">setSystemPeriodicity</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">//Load the particles from all the *.pos files</span>
+<span class="n">hemocell</span><span class="p">.</span><span class="n">loadParticles</span><span class="p">();</span><span class="w"></span>
+
+
+<span class="c1">// Load some basic values from the config.xml file that define how long the</span>
+<span class="c1">// simulation must run and when we want to save output</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">cfg</span><span class="p">)[</span><span class="s">&quot;sim&quot;</span><span class="p">][</span><span class="s">&quot;tmax&quot;</span><span class="p">].</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmeas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">cfg</span><span class="p">)[</span><span class="s">&quot;sim&quot;</span><span class="p">][</span><span class="s">&quot;tmeas&quot;</span><span class="p">].</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Finally we come to the main running loop, this case is very simple and has no
+checkpointing etc. built in, these features can be found in the other example
+cases:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">//This is the main running loop, run for tmax iterations.</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">hemocell</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tmax</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//Advance the fluid field and cellfields one tick.</span>
+<span class="w">  </span><span class="n">hemocell</span><span class="p">.</span><span class="n">iterate</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">//Set driving force as required after each iteration</span>
+<span class="w">  </span><span class="n">setExternalVector</span><span class="p">(</span><span class="o">*</span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="p">,</span><span class="w"> </span><span class="n">hemocell</span><span class="p">.</span><span class="n">lattice</span><span class="o">-&gt;</span><span class="n">getBoundingBox</span><span class="p">(),</span><span class="w"></span>
+<span class="w">              </span><span class="n">DESCRIPTOR</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">ExternalField</span><span class="o">::</span><span class="n">forceBeginsAt</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="n">plb</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">DESCRIPTOR</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">d</span><span class="o">&gt;</span><span class="p">(</span><span class="n">poiseuilleForce</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// When we want to save</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hemocell</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">tmeas</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">hemocell</span><span class="p">.</span><span class="n">writeOutput</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>You can download this file from <a class="reference download internal" download="" href="_downloads/c08833506e07936d45a1f2db435a0285/newCase.cpp"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+</section>
+<section id="including-external-code-in-your-example">
+<span id="linking-external-code"></span><h2>Including external code in your example<a class="headerlink" href="#including-external-code-in-your-example" title="Permalink to this headline">¶</a></h2>
+<p>To link external code, make sure to register your custom <code class="docutils literal notranslate"><span class="pre">*.h,</span> <span class="pre">*.cpp</span></code> files
+within the example’s <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>. For example, if you wish to include
+code from <code class="docutils literal notranslate"><span class="pre">mycell.h</span></code> and <code class="docutils literal notranslate"><span class="pre">mycell.cpp</span></code>, make sure to update the executable
+definition in <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> accordingly, i.e. change the
+<code class="docutils literal notranslate"><span class="pre">add_executable</span></code> definition from the default:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>add_executable(${EXEC_NAME} &quot;${CMAKE_CURRENT_SOURCE_DIR}/${MAIN}.cpp&quot;
+</pre></div>
+</div>
+<p>to include a reference to your code, in this case add <code class="docutils literal notranslate"><span class="pre">mycell</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>add_executable(${EXEC_NAME} &quot;mycell&quot; &quot;${CMAKE_CURRENT_SOURCE_DIR}/${MAIN}.cpp&quot;
+</pre></div>
+</div>
+</section>
+<section id="creating-a-bare-config-xml">
+<h2>Creating a bare config.xml<a class="headerlink" href="#creating-a-bare-config-xml" title="Permalink to this headline">¶</a></h2>
+<p>For this case we have minimalized the values read from the config.xml file. This
+means that the following config file is enough to run our newCase.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+<span class="nt">&lt;hemocell&gt;</span>
+
+<span class="nt">&lt;domain&gt;</span>
+    <span class="nt">&lt;rhoP&gt;</span> 1025 <span class="nt">&lt;/rhoP&gt;</span>   <span class="cm">&lt;!--Density of the surrounding fluid, Physical units [kg/m^3]--&gt;</span>
+    <span class="nt">&lt;nuP&gt;</span> 1.1e-6 <span class="nt">&lt;/nuP&gt;</span>   <span class="cm">&lt;!-- Kinematic viscosity of blood plasma, physical units [m^2/s]--&gt;</span>
+    <span class="nt">&lt;dx&gt;</span> 5e-7 <span class="nt">&lt;/dx&gt;</span> <span class="cm">&lt;!--Physical length of 1 Lattice Unit --&gt;</span>
+    <span class="nt">&lt;dt&gt;</span> 1e-7 <span class="nt">&lt;/dt&gt;</span> <span class="cm">&lt;!-- Time step for the LBM system. A negative value will set Tau=1 and calc. the corresponding time-step. --&gt;</span>
+    <span class="nt">&lt;kBT&gt;</span> 4.100531391e-21 <span class="nt">&lt;/kBT&gt;</span> <span class="cm">&lt;!-- in SI, m2 kg s-2 (or J) for T=300 --&gt;</span>
+    <span class="nt">&lt;Re&gt;</span> 1.5 <span class="nt">&lt;/Re&gt;</span>   <span class="cm">&lt;!--Reynolds number--&gt;</span>
+    <span class="nt">&lt;particleEnvelope&gt;</span> 25 <span class="nt">&lt;/particleEnvelope&gt;</span>
+<span class="nt">&lt;/domain&gt;</span>
+
+<span class="nt">&lt;sim&gt;</span>
+    <span class="nt">&lt;tmax&gt;</span> 50000 <span class="nt">&lt;/tmax&gt;</span> <span class="cm">&lt;!-- total number of iterations --&gt;</span>
+    <span class="nt">&lt;tmeas&gt;</span>  500 <span class="nt">&lt;/tmeas&gt;</span> <span class="cm">&lt;!-- interval after which data is written --&gt;</span>
+<span class="nt">&lt;/sim&gt;</span>
+
+<span class="nt">&lt;/hemocell&gt;</span>
+</pre></div>
+</div>
+<p>Now there is only one more xml file missing, namely the RBC.xml file.
+Fortunately this file is included in the examples folder, you can copy it to the
+newCase as following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">user@local:~/hemocell/examples$ </span>cp RBC_template.xml newCase/RBC.xml
+<span class="gp">user@local:~/hemocell/examples$ </span>ls newCase/
+<span class="go">CMakeLists.txt  config.xml  newCase.cpp  RBC.xml</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-the-initial-positions-for-the-cells">
+<h2>Creating the initial positions for the Cells<a class="headerlink" href="#creating-the-initial-positions-for-the-cells" title="Permalink to this headline">¶</a></h2>
+<p>As a final touch we must create an RBC.pos file which contains the positions
+of the RBC’s that we want in our simulation. For this we use the tool that is
+described in <a class="reference internal" href="QuickStart.html#packcells"><span class="std std-ref">Generating initial positions for cells</span></a>. Run packCells with the following command to
+create only RBC in a 25x25x25 domain:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">user@local:~/hemocell/tools/packCells$ </span>./packCells
+<span class="go">Insufficient arguments.</span>
+
+<span class="go">USAGE: packCells sX sY sZ [OPTIONAL ARGUMENTS ...]</span>
+
+<span class="go">OPTIONAL ARGUMENTS:</span>
+<span class="go">  --hematocrit &lt;0-1.0&gt;                 -h The hematocrit of the solution</span>
+<span class="go">  --plt_ratio &lt;ratio&gt;                     The ratio of PLT per RBC, default=0.07</span>
+<span class="go">  --rbc &lt;n&gt;                               Number of Red Blood Cells</span>
+<span class="go">  --plt &lt;n&gt;                               Number of Platelets</span>
+<span class="go">  --wbc &lt;n&gt;                               Number of White Blood Cells</span>
+<span class="go">  --vrbc &lt;n&gt;                              Number of Stage V gametocytes</span>
+<span class="go">  --cell &lt;name&gt; &lt;n&gt; &lt;e1, e2, diameter&gt;    Custom Celltype described by ellipsoid</span>
+<span class="go">  --allowRotate                        -r Allow for rotation of ellipsoids</span>
+<span class="go">  --scale &lt;ratio&gt;                         Scales the neighbourhood grid (only change this if you know what you are doing!)</span>
+<span class="go">  --maxiter &lt;n&gt;                           Maximum number of iterations</span>
+<span class="go">  --help                                  Print this</span>
+<span class="go">OUTPUT:</span>
+<span class="go">  &lt;Cell&gt;.pos for every celltype. First line is the number of cells.</span>
+<span class="go">  The rest of the lines is the cells in &quot;Location&lt;X Y Z&gt; Rotation&lt;X Y Z&gt;&quot; format.</span>
+<span class="go">  Cells.pov for visualization in, for example, povray</span>
+
+<span class="go">NOTE:</span>
+<span class="go">  sX, sY and sZ are the domain size</span>
+<span class="go">  sX, sY, sZ and output are in micrometers[µm]</span>
+<span class="go">  --hematocrit and --RBC are mutually exclusive</span>
+<span class="go">  --hematocrit and --PLT are mutually exclusive</span>
+<span class="go">  --PLT-ratio is an No-Op without --hematocrit</span>
+<span class="gp">user@local:~/hemocell/tools/packCells$ </span>./packCells  <span class="m">25</span> <span class="m">25</span> <span class="m">25</span> --plt_ratio <span class="m">0</span> --hematocrit <span class="m">0</span>.3 -r
+<span class="go">Loaded parameters, we found:</span>
+<span class="go">  Domain Size (µm): ( 25.000000 , 25.000000 , 25.000000 )</span>
+<span class="go">  Maximum Iterations : 2147483547</span>
+<span class="go">  Scale              : 0.250000</span>
+<span class="go">  Rotation           : 1</span>
+<span class="go">  Hematocrit    : 0.300000</span>
+<span class="go">  PLT/RBC Ratio : 0.000000</span>
+<span class="go">We have found the following Cells:</span>
+<span class="go">  RBC</span>
+<span class="go">    No   : 48</span>
+<span class="go">    Sizes: (8.400000 , 4.400000 , 8.400000 )</span>
+
+<span class="go">Nominal requested volume fraction: 0.499380</span>
+
+<span class="go">     Steps     Actual       Nominal        Inner         Outer             Force</span>
+<span class="go">              density       density       diameter      diameter       per particle</span>
+
+<span class="go">    68764  0.1604380013  0.1604380013  1.2985355219  1.2985355219  0.000000000000000 PACKING DONE</span>
+<span class="gp">user@local:~/hemocell/tools/packCells$ </span>cp RBC.pos ../../examples/newCase/RBC.pos
+</pre></div>
+</div>
+<p>With the RBC.pos file present in the newCase directory all the pieces should
+be there to run our first newly created case!</p>
+</section>
+<section id="running-our-newly-created-case">
+<h2>Running our newly created case<a class="headerlink" href="#running-our-newly-created-case" title="Permalink to this headline">¶</a></h2>
+<p>Finally everything should be in place! confirm this by executing the following
+command and checking if you get similar output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local:~/hemocell/examples$ ls newCase/
+CMakeLists.txt  config.xml  newCase.cpp  RBC.pos RBC.xml
+</pre></div>
+</div>
+<p>To compile the case, creating the <code class="docutils literal notranslate"><span class="pre">hemocell/examples/newCase/newCase</span></code>
+executable, run the following commands from <code class="docutils literal notranslate"><span class="pre">hemocell/</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local:~/hemocell/ mkdir build
+user@local:~/hemocell/ cd build
+user@local:~/hemocell/ cmake ..
+user@local:~/hemocell/ cmake --build . --parallel $(nproc) --target newCase
+</pre></div>
+</div>
+<p>Or alternatively evaluate the <code class="docutils literal notranslate"><span class="pre">./compile.sh</span></code> script from within the
+<code class="docutils literal notranslate"><span class="pre">hemocell/examples/newCase</span></code> directory which automates those steps.</p>
+<p>Afterwards, the executable <code class="docutils literal notranslate"><span class="pre">newCase</span></code> should be located at
+<code class="docutils literal notranslate"><span class="pre">hemocell/examples/newCase/</span></code>. The simulation can then be started as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@local:~/hemocell/examples/newCase/$ mpirun -n $(nproc) ./newCase config.xml
+</pre></div>
+</div>
+<p>where the number of used cores can be set by the <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag. Once the
+simulation completes, its output will be stored in <code class="docutils literal notranslate"><span class="pre">newCase/tmp/</span></code>. See
+<a class="reference internal" href="QuickStart.html#read-output"><span class="std std-ref">Parsing the output of a HemoCell case</span></a> on how to parse and interpret the generated output.</p>
+</section>
+<section id="compiling-examples-with-special-features">
+<h2>Compiling examples with special features<a class="headerlink" href="#compiling-examples-with-special-features" title="Permalink to this headline">¶</a></h2>
+<p>By default the examples are linked to the default HemoCell library
+(<code class="docutils literal notranslate"><span class="pre">libhemocell.a</span></code>). However, some examples require additional features to be
+enabled in the library. Currently, these consist of interior viscosity,
+solidification mechanics, and load-balancing through <code class="docutils literal notranslate"><span class="pre">Parmetis</span></code>. To enable
+these features, you are required to change the compilation target of your
+example. This can be done by modifying the <code class="docutils literal notranslate"><span class="pre">target_link_libraries</span></code> command in
+the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> located in your example directory. To enable either of
+those options, please change the line accordingly:</p>
+<ul class="simple">
+<li><p>Default: <code class="docutils literal notranslate"><span class="pre">target_link_libraries(${EXEC}</span> <span class="pre">${PROJECT_NAME})</span></code></p></li>
+<li><p>Interior viscosity: <code class="docutils literal notranslate"><span class="pre">target_link_libraries(${EXEC}</span> <span class="pre">${PROJECT_NAME}_interior_viscosity)</span></code></p></li>
+<li><p>Solidify mechanics: <code class="docutils literal notranslate"><span class="pre">target_link_libraries(${EXEC}</span> <span class="pre">${PROJECT_NAME}_solidify_mechanics)</span></code></p></li>
+<li><p>Load-balancing: <code class="docutils literal notranslate"><span class="pre">target_link_libraries(${EXEC}</span> <span class="pre">${PROJECT_NAME}_parmetis)</span></code></p></li>
+</ul>
+<p>This changes the target library of your example to the corresponding library with
+the required features enable.</p>
+<p>Note to enable load-balancing features, the optional dependency <code class="docutils literal notranslate"><span class="pre">Parmetis</span></code>
+should be present on the system (see <a class="reference internal" href="QuickStart.html#from-source"><span class="std std-ref">Setting up HemoCell from source</span></a>).</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Creating your own HemoCell Case</a><ul>
+<li><a class="reference internal" href="#editing-your-newcase-cpp">Editing your newCase.cpp</a></li>
+<li><a class="reference internal" href="#including-external-code-in-your-example">Including external code in your example</a></li>
+<li><a class="reference internal" href="#creating-a-bare-config-xml">Creating a bare config.xml</a></li>
+<li><a class="reference internal" href="#creating-the-initial-positions-for-the-cells">Creating the initial positions for the Cells</a></li>
+<li><a class="reference internal" href="#running-our-newly-created-case">Running our newly created case</a></li>
+<li><a class="reference internal" href="#compiling-examples-with-special-features">Compiling examples with special features</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cases/capillary_flow.html"
+                          title="previous chapter">Capillary flow</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="xml_files.html"
+                          title="next chapter">Configuration Files</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Case.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="xml_files.html" title="Configuration Files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cases/capillary_flow.html" title="Capillary flow"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HemoCell 2.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Creating your own HemoCell Case</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Computational Science Lab, University of Amsterdam.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>
