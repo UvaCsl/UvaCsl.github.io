@@ -1,8 +1,0 @@
-<map id="hemo::bindingFieldHelper" name="hemo::bindingFieldHelper">
-<area shape="rect" id="node1" title=" " alt="" coords="5,93,175,119"/>
-<area shape="rect" id="node2" href="$classhemo_1_1HemoCellFields.html" title=" " alt="" coords="103,5,258,31"/>
-<area shape="rect" id="node3" href="$classhemo_1_1HemoCell.html" title=" " alt="" coords="207,93,327,119"/>
-<area shape="rect" id="node4" href="$classhemo_1_1PreInlet.html" title=" " alt="" coords="135,181,242,207"/>
-<area shape="rect" id="node5" href="$classhemo_1_1LoadBalancer.html" title=" " alt="" coords="275,181,417,207"/>
-<area shape="rect" id="node6" href="$classhemo_1_1Config.html" title=" " alt="" coords="305,5,405,31"/>
-</map>

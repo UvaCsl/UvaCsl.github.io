@@ -1,7 +1,0 @@
-<map id="hemo::CellMechanics" name="hemo::CellMechanics">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,153,105"/>
-<area shape="rect" id="node2" href="$classhemo_1_1PltSimpleModel.html" title=" " alt="" coords="216,5,369,31"/>
-<area shape="rect" id="node3" href="$classhemo_1_1RbcHighOrderModel.html" title=" " alt="" coords="203,55,383,80"/>
-<area shape="rect" id="node4" href="$classhemo_1_1RbcMalariaModel.html" title=" " alt="" coords="211,104,374,129"/>
-<area shape="rect" id="node5" href="$classhemo_1_1WbcHighOrderModel.html" title=" " alt="" coords="201,153,384,179"/>
-</map>

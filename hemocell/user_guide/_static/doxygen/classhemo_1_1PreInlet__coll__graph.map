@@ -1,7 +1,0 @@
-<map id="hemo::PreInlet" name="hemo::PreInlet">
-<area shape="rect" id="node1" title=" " alt="" coords="56,5,163,31"/>
-<area shape="rect" id="node2" href="$classhemo_1_1HemoCell.html" title=" " alt="" coords="108,93,228,119"/>
-<area shape="rect" id="node3" href="$classhemo_1_1LoadBalancer.html" title=" " alt="" coords="5,181,147,207"/>
-<area shape="rect" id="node5" href="$classhemo_1_1HemoCellFields.html" title=" " alt="" coords="184,181,339,207"/>
-<area shape="rect" id="node4" href="$classhemo_1_1Config.html" title=" " alt="" coords="206,5,306,31"/>
-</map>

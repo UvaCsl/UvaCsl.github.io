@@ -1,9 +1,0 @@
-<map id="layout.Layout" name="layout.Layout">
-<area shape="rect" id="node1" title=" " alt="" coords="200,79,300,104"/>
-<area shape="rect" id="node3" href="$classlayout_1_1Box.html" title=" " alt="" coords="95,152,179,177"/>
-<area shape="rect" id="node6" href="$classlayout_1_1Cubic.html" title=" " alt="" coords="203,152,297,177"/>
-<area shape="rect" id="node7" href="$classlayout_1_1Linear.html" title=" " alt="" coords="322,152,418,177"/>
-<area shape="rect" id="node2" title=" " alt="" coords="213,5,287,31"/>
-<area shape="rect" id="node4" href="$classlayout_1_1Hexahedral.html" title=" " alt="" coords="5,225,132,251"/>
-<area shape="rect" id="node5" href="$classlayout_1_1Planar.html" title=" " alt="" coords="157,225,255,251"/>
-</map>

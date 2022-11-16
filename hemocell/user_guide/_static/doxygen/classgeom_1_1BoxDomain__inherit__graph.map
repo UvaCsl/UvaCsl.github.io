@@ -1,4 +1,0 @@
-<map id="geom::BoxDomain" name="geom::BoxDomain">
-<area shape="rect" id="node1" title="A domain functional indicating true inside a rectangular box. The BoxDomain functional evaluates to t..." alt="" coords="25,79,155,104"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,175,31"/>
-</map>
